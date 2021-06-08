@@ -9,6 +9,7 @@ export default function Navbar(props) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
+      {console.log(props)}
       <nav className="bg-gradient-to-r from-fresh-god-magic-blue via-fresh-god-50 to-fresh-god-cool-rose">
         <div className="max-w-7x1 mx-auto px-5 sm:px-6 lg:px-4">
           <div className="flex items-center justify-between h-16">
@@ -32,9 +33,9 @@ export default function Navbar(props) {
                         ? "font-bold italic"
                         : "text-gray-700"
                     }`}
-                    to="/login"
+                    to={props.state ? "/logout" : "/login"}
                   >
-                    Login
+                    {props.state ? "Logout" : "Login"}
                   </Link>
                 </div>
               </div>
@@ -105,6 +106,9 @@ export default function Navbar(props) {
                     pathname === "/" ? "font-bold italic" : "text-gray-700"
                   }`}
                   to="/"
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                  }}
                 >
                   Home
                 </Link>
@@ -112,9 +116,12 @@ export default function Navbar(props) {
                   className={`${
                     pathname === "/login" ? "font-bold italic" : "text-gray-700"
                   }`}
-                  to="/login"
+                  to={props.state ? "/logout" : "/login"}
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                  }}
                 >
-                  Login
+                  {props.state ? "Logout" : "Login"}
                 </Link>
               </div>
             </div>

@@ -24,7 +24,8 @@ const LOGIN = gql`
   }
 `;
 
-export default function Login() {
+export default function Login(props) {
+  const manageSession = props;
   const [formData, setformData] = useState({
     email: "",
     password: "",
@@ -79,11 +80,11 @@ export default function Login() {
         message: "Error 401 User not Authorized",
       };
     }
-
     ReactSession.set("token", login.token);
     ReactSession.set("user", login.user.id);
     ReactSession.set("license", login.user.role.rolType);
     ReactSession.set("image", login.user.image.path);
+    manageSession.initSesion(true);
   };
 
   return (
