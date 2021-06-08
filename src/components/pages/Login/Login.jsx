@@ -4,6 +4,7 @@ import { gql, useLazyQuery } from "@apollo/client";
 import cup from "./../../../assets/images/cup.png";
 import "./Login.css";
 import ReactSession from "./../../../tools/ReactSession";
+import Loader from "./../../UI/organisms/Loader";
 
 const LOGIN = gql`
   query Login($email: String!, $password: String!) {
@@ -30,7 +31,7 @@ export default function Login(props) {
     email: "",
     password: "",
   });
-  const [login] = useLazyQuery(LOGIN, {
+  const [login, { loading }] = useLazyQuery(LOGIN, {
     onCompleted: (data) => {
       handleSession(data.login);
     },
@@ -86,6 +87,8 @@ export default function Login(props) {
     ReactSession.set("image", login.user.image.path);
     manageSession.initSesion(true);
   };
+
+  if (loading) return <Loader />;
 
   return (
     <div className="fadeIn flex max-h-96 sm:max-h-full sm:h-3/4 md:h-4/5 bg-gradient-to-r from-fresh-god-50 to-fresh-god-cool-rose shadow-2xl rounded-tl-3xl rounded-br-3xl lg:px-12">

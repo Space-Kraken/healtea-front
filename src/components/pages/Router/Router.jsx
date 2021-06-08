@@ -27,12 +27,12 @@ export default function Router() {
       <main className="h-full">
         <div className="flex flex-wrap justify-center bg-main w-full h-full border-t border-gray-400 text-center pt-5 px-4 sm:pt-12 sm:px-10 md:px-20 rounded-tl-main">
           <Switch>
-            <Route exact path="/home">
+            <Route exact path="/">
               <Home />
             </Route>
             <Route path="/login">
               {session ? (
-                <Redirect to="home" />
+                <Redirect to="/" />
               ) : (
                 <Login initSesion={initSession} />
               )}
