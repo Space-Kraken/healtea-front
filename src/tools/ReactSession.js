@@ -1,22 +1,24 @@
-let ReactSession = (function () {
+import React from "react";
+
+var ReactSession = (function () {
   const SESSION_OBJECT_NAME = "__react_session__";
   const COOKIE_EXPIRATION_DAYS = 7; // TODO: Make this a prop?
-  let SessionWriter = null;
-  let sessionData = {};
+  var SessionWriter = null;
+  var sessionData = {};
 
-  let get = function (key) {
+  var get = function (key) {
     return SessionWriter.get(key);
   };
 
-  let set = function (key, value) {
+  var set = function (key, value) {
     SessionWriter.set(key, value);
   };
 
-  let remove = function (key) {
+  var remove = function (key) {
     SessionWriter.remove(key);
   };
 
-  let setStoreType = function (storeType) {
+  var setStoreType = function (storeType) {
     if (
       !["memory", "cookie", "localstorage", "sessionstorage"].includes(
         storeType.toLowerCase()
@@ -27,7 +29,7 @@ let ReactSession = (function () {
     SessionWriter = getSessionWriter(storeType);
   };
 
-  let getSessionWriter = function (storeType) {
+  var getSessionWriter = function (storeType) {
     switch (storeType.toLowerCase()) {
       case "memory":
         return MemoryWriter;
@@ -42,7 +44,7 @@ let ReactSession = (function () {
     }
   };
 
-  let MemoryWriter = {
+  var MemoryWriter = {
     set: function (key, value) {
       sessionData[key] = value;
     },
@@ -56,7 +58,7 @@ let ReactSession = (function () {
     },
   };
 
-  let LocalStorageWriter = {
+  var LocalStorageWriter = {
     set: function (key, value) {
       setItem(localStorage, key, value);
     },
@@ -68,7 +70,7 @@ let ReactSession = (function () {
     },
   };
 
-  let SessionStorageWriter = {
+  var SessionStorageWriter = {
     set: function (key, value) {
       setItem(sessionStorage, key, value);
     },
@@ -80,7 +82,7 @@ let ReactSession = (function () {
     },
   };
 
-  let CookieWriter = {
+  var CookieWriter = {
     set: function (key, value) {
       setCookieParam(key, value, COOKIE_EXPIRATION_DAYS);
     },
@@ -94,18 +96,18 @@ let ReactSession = (function () {
 
   SessionWriter = MemoryWriter;
 
-  let setItem = function (storageObject, key, value) {
+  var setItem = function (storageObject, key, value) {
     const item = getStorageItem(storageObject);
     item[key] = value;
     setStorageItem(storageObject, item);
   };
 
-  let getItem = function (storageObject, key) {
+  var getItem = function (storageObject, key) {
     const item = getStorageItem(storageObject);
     return item[key];
   };
 
-  let removeItem = function (storageObject, key) {
+  var removeItem = function (storageObject, key) {
     const item = getStorageItem(storageObject);
     delete item[key];
     setStorageItem(storageObject, item);
