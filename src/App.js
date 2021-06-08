@@ -5,8 +5,8 @@ import ReactSession from "./tools/ReactSession";
 function App() {
   ReactSession.setStoreType("cookie");
   return (
-    <ToastProvider>
-      <div className="bg-gradient-to-r from-fresh-god-magic-blue via-fresh-god-50 to-fresh-god-cool-rose flex flex-col h-screen justify-between">
+    <ToastProvider placement="bottom-right">
+      <div className="bg-gradient-to-r from-fresh-god-magic-blue via-fresh-god-50 to-fresh-god-cool-rose flex flex-col w-full h-screen justify-evenly">
         <Router />
       </div>
     </ToastProvider>

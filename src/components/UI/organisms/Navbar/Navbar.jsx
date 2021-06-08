@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import logo from "./../../../../assets/logo.png";
+import { Link, useLocation } from "react-router-dom";
 import { Transition } from "@headlessui/react";
+import logo from "./../../../../assets/images/logo.png";
+import ReactSession from "./../../../../tools/ReactSession";
 
-export default function Navbar() {
+export default function Navbar(props) {
+  let { pathname } = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -15,36 +18,22 @@ export default function Navbar() {
             <div className="flex items-center">
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
-                  <a
-                    href="#"
-                    className="hover:bg-gray-700 text-black px-3 py-2 rounded-md text-sm font-medium"
+                  <Link
+                    className={`px-3 py-2 rounded bg-purple-200 ${
+                      pathname === "/" ? "font-bold italic" : "text-black"
+                    }`}
+                    to="/"
                   >
-                    Dashboard
-                  </a>
-                  <a
-                    href="#"
-                    className="text-black hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    Home
+                  </Link>
+                  <Link
+                    className={`px-3 py-2 bg-purple-200 rounded ${
+                      pathname === "/login" ? "font-bold italic" : "text-black"
+                    }`}
+                    to="/login"
                   >
-                    Team
-                  </a>
-                  <a
-                    href="#"
-                    className="hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Projects
-                  </a>
-                  <a
-                    href="#"
-                    className=" hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Calendar
-                  </a>
-                  <a
-                    href="#"
-                    className="hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Reports
-                  </a>
+                    Login
+                  </Link>
                 </div>
               </div>
             </div>
@@ -85,9 +74,9 @@ export default function Navbar() {
                     aria-hidden="true"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="M6 18L18 6M6 6l12 12"
                     />
                   </svg>
@@ -105,42 +94,32 @@ export default function Navbar() {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          {(ref) => (
-            <div className="md:hidden" id="mobile-menu">
-              <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a
-                  href="#"
-                  className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium"
+          <div className="md:hidden" id="mobile-menu">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              <div className="ml-10 flex items-baseline space-x-4">
+                {console.log(pathname)}
+                <Link
+                  className={`${
+                    pathname === "/" ? "text-fresh-god-900" : "text-gray-300"
+                  }`}
+                  to="/"
                 >
-                  Dashboard
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 round-md text-base font-medium"
+                  Home
+                </Link>
+                {console.log(pathname)}
+                <Link
+                  className={`${
+                    pathname === "/login"
+                      ? "text-fresh-god-900"
+                      : "text-gray-300"
+                  }`}
+                  to="/login"
                 >
-                  Team
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 round-md text-base font-medium"
-                >
-                  Proyects
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 round-md text-base font-medium"
-                >
-                  Calendar
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 round-md text-base font-medium"
-                >
-                  Reports
-                </a>
+                  Login
+                </Link>
               </div>
             </div>
-          )}
+          </div>
         </Transition>
       </nav>
     </>

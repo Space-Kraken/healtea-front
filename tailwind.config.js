@@ -17,6 +17,9 @@ module.exports = {
       borderRadius: {
         main: "3rem",
       },
+      backgroundImage: (theme) => ({
+        main: "url('/src/assets/images/background.jpg')",
+      }),
     },
   },
   variants: {
