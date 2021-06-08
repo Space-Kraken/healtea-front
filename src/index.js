@@ -5,16 +5,16 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
-const client = new ApolloClient({
-  uri: "http://192.168.1.71:3100/",
-  cache: new InMemoryCache(),
-});
+// const client = new ApolloClient({
+//   uri: "http://192.168.1.71:3100/",
+//   cache: new InMemoryCache(),
+// });
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
+    {/* <ApolloProvider client={client}> */}
+    <App />
+    {/* </ApolloProvider> */}
   </React.StrictMode>,
   document.getElementById("root")
 );
