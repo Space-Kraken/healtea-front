@@ -1,24 +1,34 @@
-import React from "react";
+Object.defineProperty(exports, "__esModule", {
+  value: true,
+});
+exports["default"] = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 var ReactSession = (function () {
-  const SESSION_OBJECT_NAME = "__react_session__";
-  const COOKIE_EXPIRATION_DAYS = 7; // TODO: Make this a prop?
+  var SESSION_OBJECT_NAME = "__react_session__";
+  var COOKIE_EXPIRATION_DAYS = 7; // TODO: Make this a prop?
+
   var SessionWriter = null;
   var sessionData = {};
 
-  var get = function (key) {
+  var get = function get(key) {
     return SessionWriter.get(key);
   };
 
-  var set = function (key, value) {
+  var set = function set(key, value) {
     SessionWriter.set(key, value);
   };
 
-  var remove = function (key) {
+  var remove = function remove(key) {
     SessionWriter.remove(key);
   };
 
-  var setStoreType = function (storeType) {
+  var setStoreType = function setStoreType(storeType) {
     if (
       !["memory", "cookie", "localstorage", "sessionstorage"].includes(
         storeType.toLowerCase()
@@ -26,159 +36,161 @@ var ReactSession = (function () {
     ) {
       throw "Unknown store type";
     }
+
     SessionWriter = getSessionWriter(storeType);
   };
 
-  var getSessionWriter = function (storeType) {
+  var getSessionWriter = function getSessionWriter(storeType) {
     switch (storeType.toLowerCase()) {
       case "memory":
         return MemoryWriter;
+
       case "cookie":
         return CookieWriter;
+
       case "localstorage":
         return LocalStorageWriter;
+
       case "sessionstorage":
         return SessionStorageWriter;
+
       default:
         return MemoryWriter;
     }
   };
 
   var MemoryWriter = {
-    set: function (key, value) {
+    set: function set(key, value) {
       sessionData[key] = value;
     },
-    get: function (key) {
+    get: function get(key) {
       return sessionData[key];
     },
-    remove: function (key) {
+    remove: function remove(key) {
       if (sessionData.hasOwnProperty(key)) {
         delete sessionData[key];
       }
     },
   };
-
   var LocalStorageWriter = {
-    set: function (key, value) {
+    set: function set(key, value) {
       setItem(localStorage, key, value);
     },
-    get: function (key) {
+    get: function get(key) {
       return getItem(localStorage, key);
     },
-    remove: function (key) {
+    remove: function remove(key) {
       removeItem(localStorage, key);
     },
   };
-
   var SessionStorageWriter = {
-    set: function (key, value) {
+    set: function set(key, value) {
       setItem(sessionStorage, key, value);
     },
-    get: function (key) {
+    get: function get(key) {
       return getItem(sessionStorage, key);
     },
-    remove: function (key) {
+    remove: function remove(key) {
       removeItem(sessionStorage, key);
     },
   };
-
   var CookieWriter = {
-    set: function (key, value) {
+    set: function set(key, value) {
       setCookieParam(key, value, COOKIE_EXPIRATION_DAYS);
     },
-    get: function (key) {
+    get: function get(key) {
       return getCookieParam(key);
     },
-    remove: function (key) {
+    remove: function remove(key) {
       deleteCookieParam(key);
     },
   };
-
   SessionWriter = MemoryWriter;
 
-  var setItem = function (storageObject, key, value) {
-    const item = getStorageItem(storageObject);
+  var setItem = function setItem(storageObject, key, value) {
+    var item = getStorageItem(storageObject);
     item[key] = value;
     setStorageItem(storageObject, item);
   };
 
-  var getItem = function (storageObject, key) {
-    const item = getStorageItem(storageObject);
+  var getItem = function getItem(storageObject, key) {
+    var item = getStorageItem(storageObject);
     return item[key];
   };
 
-  var removeItem = function (storageObject, key) {
-    const item = getStorageItem(storageObject);
+  var removeItem = function removeItem(storageObject, key) {
+    var item = getStorageItem(storageObject);
     delete item[key];
     setStorageItem(storageObject, item);
   };
 
-  let getStorageItem = function (storageObject) {
-    const item = storageObject.getItem(SESSION_OBJECT_NAME);
+  var getStorageItem = function getStorageItem(storageObject) {
+    var item = storageObject.getItem(SESSION_OBJECT_NAME);
     return item ? JSON.parse(item) : {};
   };
 
-  let setStorageItem = function (storageObject, item) {
+  var setStorageItem = function setStorageItem(storageObject, item) {
     storageObject.setItem(SESSION_OBJECT_NAME, JSON.stringify(item));
   };
 
-  let getUpdatedTime = function (numDays) {
-    let now = new Date();
+  var getUpdatedTime = function getUpdatedTime(numDays) {
+    var now = new Date();
     now.setTime(now.getTime() + numDays * 24 * 60 * 60 * 1000);
     return now.toUTCString();
   };
 
-  let setCookieParam = function (key, value, numDays) {
-    let expires = "expires=" + getUpdatedTime(COOKIE_EXPIRATION_DAYS);
-    let existingCookie = getCookie(SESSION_OBJECT_NAME);
-    let cookieJson = {};
+  var setCookieParam = function setCookieParam(key, value, numDays) {
+    var expires = "expires=" + getUpdatedTime(COOKIE_EXPIRATION_DAYS);
+    var existingCookie = getCookie(SESSION_OBJECT_NAME);
+    var cookieJson = {};
 
     if (existingCookie) {
       cookieJson = JSON.parse(existingCookie);
     }
 
     cookieJson[key] = value;
-
-    let cookieStr =
+    var cookieStr =
       SESSION_OBJECT_NAME + "=" + JSON.stringify(cookieJson) + ";";
     cookieStr += expires + ";path=/";
     document.cookie = cookieStr;
   };
 
-  let getCookieParam = function (key) {
-    const cookieParam = JSON.parse(getCookie(SESSION_OBJECT_NAME));
+  var getCookieParam = function getCookieParam(key) {
+    var cookieParam = JSON.parse(getCookie(SESSION_OBJECT_NAME));
     return cookieParam[key];
   };
 
-  let getCookie = function (cookieName) {
-    let name = cookieName + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let cookies = decodedCookie.split(";");
+  var getCookie = function getCookie(cookieName) {
+    var name = cookieName + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var cookies = decodedCookie.split(";");
 
-    for (let i = 0; i < cookies.length; i++) {
-      let cookie = cookies[i];
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
 
       while (cookie.charAt(0) == " ") {
         cookie = cookie.substring(1);
       }
+
       if (cookie.indexOf(name) == 0) {
         return cookie.substring(name.length, cookie.length);
       }
     }
+
     return "";
   };
 
-  let deleteCookieParam = function (key) {
-    let expires = "expires=" + getUpdatedTime(COOKIE_EXPIRATION_DAYS);
-    let existingCookie = getCookie(SESSION_OBJECT_NAME);
-    let cookieJson = {};
+  var deleteCookieParam = function deleteCookieParam(key) {
+    var expires = "expires=" + getUpdatedTime(COOKIE_EXPIRATION_DAYS);
+    var existingCookie = getCookie(SESSION_OBJECT_NAME);
+    var cookieJson = {};
 
     if (existingCookie) {
       cookieJson = JSON.parse(existingCookie);
       delete cookieJson[key];
     }
 
-    let cookieStr =
+    var cookieStr =
       SESSION_OBJECT_NAME + "=" + JSON.stringify(cookieJson) + ";";
     cookieStr += expires + ";path=/";
     document.cookie = cookieStr;
@@ -193,4 +205,5 @@ var ReactSession = (function () {
   };
 })();
 
-export default ReactSession;
+var _default = ReactSession;
+exports["default"] = _default;
