@@ -4,6 +4,9 @@ import App from "./App";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import ReactSession from "./tools/ReactSession";
+
+ReactSession.setStoreType("cookie");
 
 // const client = new ApolloClient({
 //   uri: "http://192.168.1.71:3100/",
