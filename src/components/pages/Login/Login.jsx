@@ -16,6 +16,9 @@ const LOGIN = gql`
         image {
           path
         }
+        role {
+          rolType
+        }
       }
     }
   }
@@ -79,17 +82,18 @@ export default function Login() {
 
     ReactSession.set("token", login.token);
     ReactSession.set("user", login.user.id);
+    ReactSession.set("license", login.user.role.rolType);
     ReactSession.set("image", login.user.image.path);
   };
 
   return (
-    <div className="fadeIn flex h-3/5 sm:h-4/5 bg-gradient-to-r from-fresh-god-50 to-fresh-god-cool-rose shadow-2xl rounded-tl-3xl rounded-br-3xl lg:px-12">
-      <div className="flex flex-wrap flex-col justify-center">
-        <img className="mx-auto h-28" src={cup} alt="Workflow" />
-        <h2 className="text-center sm:text-3xl font-extrabold text-gray-900">
+    <div className="fadeIn flex max-h-96 sm:max-h-full sm:h-3/4 md:h-4/5 bg-gradient-to-r from-fresh-god-50 to-fresh-god-cool-rose shadow-2xl rounded-tl-3xl rounded-br-3xl lg:px-12">
+      <div className="flex flex-nowrap flex-col justify-center">
+        <img className="mx-auto h-28 mt-0 md:mt-1" src={cup} alt="Workflow" />
+        <h2 className="text-center sm:text-xl font-extrabold text-gray-900">
           Sign in to your account
         </h2>
-        <form onSubmit={handleSubmit} class="mt-4 md:mt-8 w-full max-w-sm">
+        <form onSubmit={handleSubmit} class="mt-4 md:mt-6 w-full max-w-sm">
           <input
             class={`bg-gray-200 outline-none appearance-none border-2  rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 ${
               validation.email ? "border-red-800" : "border-gray-200"
