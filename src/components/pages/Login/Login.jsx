@@ -3,7 +3,7 @@ import { useToasts } from "react-toast-notifications";
 import { gql, useLazyQuery } from "@apollo/client";
 import cup from "./../../../assets/images/cup.png";
 import "./Login.css";
-import ReactSession from "./../../../tools/ReactSession";
+import { useCookies } from "react-cookie";
 import Loader from "./../../UI/organisms/Loader";
 
 const LOGIN = gql`
@@ -26,6 +26,12 @@ const LOGIN = gql`
 `;
 
 export default function Login(props) {
+  const [cookies, setCookie] = useCookies([
+    "user",
+    "token",
+    "license",
+    "image",
+  ]);
   const manageSession = props;
   const [formData, setformData] = useState({
     email: "",
@@ -81,10 +87,14 @@ export default function Login(props) {
         message: "Error 401 User not Authorized",
       };
     }
-    ReactSession.set("token", login.token);
-    ReactSession.set("user", login.user.id);
-    ReactSession.set("license", login.user.role.rolType);
-    ReactSession.set("image", login.user.image.path);
+    // ReactSession.set("token", login.token);
+    // ReactSession.set("user", login.user.id);
+    // ReactSession.set("license", login.user.role.rolType);
+    // ReactSession.set("image", login.user.image.path);
+    setCookie("token", login.token, { path: "/" });
+    setCookie("user", login.user.id, { path: "/" });
+    setCookie("license", login.user.role.rolType, { path: "/" });
+    setCookie("image", login.user.image.path, { path: "/" });
     manageSession.initSesion(true);
   };
 

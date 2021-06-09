@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Transition } from "@headlessui/react";
 import logo from "./../../../../assets/images/logo.png";
-import ReactSession from "./../../../../tools/ReactSession";
+import { useCookies } from "react-cookie";
 
 export default function Navbar(props) {
-  let { pathname } = useLocation();
+  const [cookies] = useCookies(["license"]);
   const [isOpen, setIsOpen] = useState(false);
+  let { pathname } = useLocation();
   return (
     <>
       {console.log(props)}
@@ -19,7 +20,7 @@ export default function Navbar(props) {
             <div className="flex items-center">
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
-                  {ReactSession.get("license") === "Admin" ? (
+                  {cookies.license === "Admin" ? (
                     <Link
                       className={`px-3 py-2 rounded-2xl shadow-xl hover:bg-purple-50 bg-purple-100 ${
                         pathname === "/dashboard"

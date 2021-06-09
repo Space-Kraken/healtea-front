@@ -3,6 +3,7 @@ import React from "react";
 import App from "./App";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
+import { CookiesProvider } from "react-cookie";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const client = new ApolloClient({
@@ -13,7 +14,9 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <CookiesProvider>
+        <App />
+      </CookiesProvider>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
