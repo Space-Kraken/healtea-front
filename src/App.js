@@ -4,6 +4,7 @@ import ReactSession from "./tools/ReactSession";
 
 function App() {
   ReactSession.setStoreType("cookie");
+  ReactSession.set("user", "");
 
   return (
     <ToastProvider placement="bottom-right">

@@ -9,7 +9,7 @@ import Home from "./../Home";
 export default function Router() {
   const { addToast } = useToasts();
   const [session, setSession] = useState(
-    ReactSession.get("user") !== undefined ? true : false
+    ReactSession.get("user") !== "" ? true : false
   );
   const initSession = (state) => {
     setSession(state);
