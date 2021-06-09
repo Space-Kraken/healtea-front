@@ -91,81 +91,110 @@ export default function Login(props) {
   if (loading) return <Loader />;
 
   return (
-    <div className="fadeIn flex h-full sm:h-3/4 md:h-4/5 bg-gradient-to-r from-fresh-god-50 to-fresh-god-cool-rose shadow-2xl rounded-tl-3xl rounded-br-3xl lg:px-12">
-      <div className="flex flex-nowrap flex-col justify-center">
-        <img className="mx-auto h-28 mt-0 md:mt-1" src={cup} alt="Workflow" />
-        <h2 className="text-center sm:text-xl font-extrabold text-gray-900">
-          Sign in to your account
-        </h2>
-        <form onSubmit={handleSubmit} class="mt-4 md:mt-6 w-full max-w-sm">
-          <input
-            class={`bg-gray-200 outline-none appearance-none border-2  rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 ${
-              validation.email ? "border-red-800" : "border-gray-200"
-            }`}
-            type="text"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={(event) => {
-              setvalidation((validation) => ({
-                ...validation,
-                email: false,
-              }));
-              setformData((formData) => ({
-                ...formData,
-                email: event.target.value,
-              }));
-            }}
-            required
-            onInvalid={(event) => {
-              event.preventDefault();
-              setvalidation((validation) => ({
-                ...validation,
-                email: true,
-              }));
-              addToast("Please provide a email address", {
-                appearance: "warning",
-                autoDismiss: true,
-              });
-            }}
-          />
-          <input
-            class={`outline-none appearance-none border-2 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 ${
-              validation.psw ? "border-red-800" : "border-gray-200"
-            }`}
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={(event) => {
-              setvalidation((validation) => ({
-                ...validation,
-                psw: false,
-              }));
-              setformData((formData) => ({
-                ...formData,
-                password: event.target.value,
-              }));
-            }}
-            required
-            onInvalid={(event) => {
-              event.preventDefault();
-              setvalidation((validation) => ({
-                ...validation,
-                psw: true,
-              }));
-              addToast("Please provide a password", {
-                appearance: "warning",
-                autoDismiss: true,
-              });
-            }}
-          />
-          <button
-            class="my-4 md:my-10 shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-            type="submit"
+    <div className="fadeIn w-full h-full flex sm:flex-col justify-between">
+      <div className="-mr-2 flex md:hidden">
+        <button
+          type="button"
+          className="bg-purple-100 inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-purple-100 focus:outline-none"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+        >
+          <svg
+            className="block h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
           >
-            Sign Up
-          </button>
-        </form>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+      <div>
+        <h1 className="text-7xl">Heal Tea</h1>
+      </div>
+      <div className="bg-gradient-to-r from-fresh-god-50 to-fresh-god-cool-rose shadow-2xl rounded-tl-3xl rounded-br-3xl lg:px-12">
+        <div className="flex flex-nowrap flex-col justify-center">
+          <img className="mx-auto h-28 mt-0 md:mt-1" src={cup} alt="Workflow" />
+          <h2 className="text-center sm:text-xl font-extrabold text-gray-900">
+            Sign in to your account
+          </h2>
+          <form onSubmit={handleSubmit} class="mt-4 md:mt-6 w-full max-w-sm">
+            <input
+              class={`bg-gray-200 outline-none appearance-none border-2  rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 ${
+                validation.email ? "border-red-800" : "border-gray-200"
+              }`}
+              type="text"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={(event) => {
+                setvalidation((validation) => ({
+                  ...validation,
+                  email: false,
+                }));
+                setformData((formData) => ({
+                  ...formData,
+                  email: event.target.value,
+                }));
+              }}
+              required
+              onInvalid={(event) => {
+                event.preventDefault();
+                setvalidation((validation) => ({
+                  ...validation,
+                  email: true,
+                }));
+                addToast("Please provide a email address", {
+                  appearance: "warning",
+                  autoDismiss: true,
+                });
+              }}
+            />
+            <input
+              class={`outline-none appearance-none border-2 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 ${
+                validation.psw ? "border-red-800" : "border-gray-200"
+              }`}
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={(event) => {
+                setvalidation((validation) => ({
+                  ...validation,
+                  psw: false,
+                }));
+                setformData((formData) => ({
+                  ...formData,
+                  password: event.target.value,
+                }));
+              }}
+              required
+              onInvalid={(event) => {
+                event.preventDefault();
+                setvalidation((validation) => ({
+                  ...validation,
+                  psw: true,
+                }));
+                addToast("Please provide a password", {
+                  appearance: "warning",
+                  autoDismiss: true,
+                });
+              }}
+            />
+            <button
+              class="my-4 md:my-10 shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              type="submit"
+            >
+              Sign Up
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

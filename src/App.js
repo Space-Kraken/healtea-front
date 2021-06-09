@@ -1,5 +1,5 @@
 import { ToastProvider } from "react-toast-notifications";
-import Router from "./components/pages/Router";
+import Router from "./components/Router";
 import ReactSession from "./tools/ReactSession";
 
 function App() {

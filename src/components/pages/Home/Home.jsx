@@ -64,11 +64,11 @@ export default function Home() {
           <div className="w-auto p-3">
             <div className="flex flex-col lg:flex-row rounded overflow-hidden h-auto lg:h-32 border shadow-lg">
               <img
-                className="block h-auto w-full lg:w-48 flex-none bg-cover"
+                className="block h-auto flex-none bg-auto"
                 src={Images.symptom}
                 alt="symptom"
               />
-              <div className="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-center leading-normal">
+              <div className="bg-white w-full rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-center leading-normal">
                 <div className="text-black font-bold text-xl mb-2 leading-tight">
                   Coughing / Sneezing
                 </div>
@@ -78,11 +78,11 @@ export default function Home() {
           <div className="w-auto p-3">
             <div className="flex flex-col lg:flex-row rounded overflow-hidden h-auto lg:h-32 border shadow-lg">
               <img
-                className="block h-auto w-full lg:w-48 flex-none bg-cover"
+                className="block h-auto flex-none bg-auto"
                 src={Images.symptom2}
                 alt="symptom"
               />
-              <div className="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-center leading-normal">
+              <div className="bg-white w-full rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-center leading-normal">
                 <div className="text-black font-bold text-xl mb-2 leading-tight">
                   Fever/Temperature
                 </div>
@@ -92,11 +92,11 @@ export default function Home() {
           <div className="w-auto p-3">
             <div className="flex flex-col lg:flex-row rounded overflow-hidden h-auto lg:h-32 border shadow-lg">
               <img
-                className="block h-auto w-full lg:w-48 flex-none bg-cover"
+                className="block h-auto flex-none bg-cover"
                 src={Images.symptom3}
                 alt="symptom"
               />
-              <div className="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-center leading-normal">
+              <div className="bg-white w-full rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-center leading-normal">
                 <div className="text-black font-bold text-xl mb-2 leading-tight">
                   Headache
                 </div>
@@ -116,12 +116,12 @@ export default function Home() {
           <div className="w-auto p-3">
             <div className="flex flex-col lg:flex-row rounded overflow-hidden h-auto lg:h-32 border shadow-lg">
               <img
-                className="block h-auto w-full lg:w-48 flex-none bg-cover"
+                className="block h-auto flex-none bg-cover"
                 src={Images.symptom4}
                 alt="symptom"
               />
-              <div className="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-center leading-normal">
-                <div className="text-black font-bold text-xl mb-2 leading-tight">
+              <div className="bg-white w-full rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-center leading-normal">
+                <div className="text-black font-bold text-xl leading-tight">
                   Difficulty breathing <br />
                   (more severe cases)
                 </div>
@@ -131,12 +131,12 @@ export default function Home() {
           <div className="w-auto p-3">
             <div className="flex flex-col lg:flex-row rounded overflow-hidden h-auto lg:h-32 border shadow-lg">
               <img
-                className="block h-auto w-full lg:w-48 flex-none bg-cover"
+                className="block h-auto  flex-none bg-auto"
                 src={Images.symptom5}
                 alt="symptom"
               />
-              <div className="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-center leading-normal">
-                <div className="text-black font-bold text-xl mb-2 leading-tight">
+              <div className="bg-white w-full rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-center leading-normal">
+                <div className="text-black font-bold text-xl leading-tight">
                   Throat pain
                 </div>
               </div>
@@ -145,12 +145,12 @@ export default function Home() {
           <div className="w-auto p-3">
             <div className="flex flex-col lg:flex-row rounded overflow-hidden h-auto lg:h-32 border shadow-lg">
               <img
-                className="block h-auto w-full lg:w-48 flex-none bg-cover"
+                className="block h-auto flex-none bg-cover"
                 src={Images.symptom6}
                 alt="symptom"
               />
-              <div className="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-center leading-normal">
-                <div className="text-black font-bold text-xl mb-2 leading-tight">
+              <div className="bg-white w-full rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-center leading-normal">
+                <div className="text-black font-bold text-xl leading-tight">
                   Runny nose
                 </div>
               </div>
@@ -159,12 +159,12 @@ export default function Home() {
           <div className="w-auto p-3">
             <div className="flex flex-col lg:flex-row rounded overflow-hidden h-auto lg:h-32 border shadow-lg">
               <img
-                className="block h-auto w-full lg:w-48 flex-none bg-cover"
+                className="block h-auto flex-none bg-cover"
                 src={Images.symptom7}
                 alt="symptom"
               />
-              <div className="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-center leading-normal">
-                <div className="text-black font-bold text-xl mb-2 leading-tight">
+              <div className="bg-white w-full rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-center leading-normal">
+                <div className="text-black font-bold text-xl leading-tight">
                   Red eyes
                 </div>
               </div>
@@ -173,12 +173,12 @@ export default function Home() {
           <div className="w-auto p-3">
             <div className="flex flex-col lg:flex-row rounded overflow-hidden h-auto lg:h-32 border shadow-lg">
               <img
-                className="block h-auto w-full lg:w-48 flex-none bg-cover"
+                className="block h-auto flex-none bg-cover"
                 src={Images.symptom8}
                 alt="symptom"
               />
-              <div className="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-center leading-normal">
-                <div className="text-black font-bold text-xl mb-2 leading-tight">
+              <div className="bg-white w-full rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-center leading-normal">
+                <div className="text-black font-bold text-xl">
                   Muscle or joint pain
                 </div>
               </div>
@@ -188,22 +188,4 @@ export default function Home() {
       </div>
     </div>
   );
-}
-
-{
-  /* <div
-      classNameName="container mx-auto mt-5"
-      style={{
-        background: "#61C0BF",
-      }}
-    >
-      <h1>Home page</h1>
-      <section classNameName="flex items-center justify-center">
-        <div classNameName="text-center">
-          <p classNameName="text-xl font-medium tracking-wider text-gray-300">
-            Consulta nuestro portal
-          </p>
-        </div>
-      </section>
-    </div> */
 }

@@ -19,6 +19,18 @@ export default function Navbar(props) {
             <div className="flex items-center">
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
+                  {ReactSession.get("license") === "Admin" ? (
+                    <Link
+                      className={`px-3 py-2 rounded-2xl shadow-xl hover:bg-purple-50 bg-purple-100 ${
+                        pathname === "/dashboard"
+                          ? "font-bold italic"
+                          : "text-gray-700"
+                      }`}
+                      to="/dashboard"
+                    >
+                      Dashboard
+                    </Link>
+                  ) : null}
                   <Link
                     className={`px-3 py-2 rounded-2xl shadow-xl hover:bg-purple-50 bg-purple-100 ${
                       pathname === "/" ? "font-bold italic" : "text-gray-700"

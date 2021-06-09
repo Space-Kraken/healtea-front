@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Route, BrowserRouter, Switch, Redirect } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
-import ReactSession from "./../../../tools/ReactSession";
-import Navbar from "./../../UI/organisms/Navbar";
-import Login from "./../Login";
-import Home from "./../Home";
+import ReactSession from "./../../tools/ReactSession";
+import Navbar from "./../UI/organisms/Navbar";
+import Login from "./../pages/Login";
+import Home from "./../pages/Home";
 
 export default function Router() {
   const { addToast } = useToasts();
@@ -17,6 +17,9 @@ export default function Router() {
 
   const deleteSession = () => {
     ReactSession.remove("user");
+    ReactSession.remove("license");
+    ReactSession.remove("token");
+    ReactSession.remove("image");
   };
 
   return (
@@ -26,10 +29,17 @@ export default function Router() {
         <Navbar state={session} />
       </header>
       <main className="h-full">
-        <div className="flex flex-wrap justify-center bg-fresh-god-magic-bd w-full h-full border-t-2 border-gray-400 text-center pt-5 px-4 sm:pt-12 sm:px-10 md:px-20 rounded-tl-main">
+        <div className="flex justify-center bg-fresh-god-magic-bd w-full h-full border-t-2 border-gray-400 text-center pt-5 px-4 sm:pt-12 sm:px-10 md:px-20 rounded-tl-main">
           <Switch>
             <Route exact path="/">
               <Home />
+            </Route>
+            <Route path="/dashboard">
+              {ReactSession.get("license") !== "Admin" ? (
+                <Redirect to="/" />
+              ) : (
+                <Home />
+              )}
             </Route>
             <Route path="/login">
               {session ? (
