@@ -6,7 +6,7 @@ import { Images } from "./../../../assets/images/home/";
 export default function Home() {
   return (
     <div className="h-auto">
-      <div className="fadeIn w-full lg:max-w-full lg:flex shadow-xl rounded">
+      <div className="fadeIn lg:max-w-full lg:flex shadow-xl rounded">
         <img
           className="rounded-t-xl h-48 w-full sm:w-auto lg:h-auto text-center border-none border-transparent md:border-r md:border-gray-300"
           title="Mountain"

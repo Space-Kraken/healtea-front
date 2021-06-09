@@ -26,12 +26,7 @@ const LOGIN = gql`
 `;
 
 export default function Login(props) {
-  const [cookies, setCookie] = useCookies([
-    "user",
-    "token",
-    "license",
-    "image",
-  ]);
+  const [setCookie] = useCookies(["user", "token", "license", "image"]);
   const manageSession = props;
   const [formData, setformData] = useState({
     email: "",
@@ -101,34 +96,7 @@ export default function Login(props) {
   if (loading) return <Loader />;
 
   return (
-    <div className="fadeIn w-full h-full flex sm:flex-col justify-between">
-      <div className="-mr-2 flex md:hidden">
-        <button
-          type="button"
-          className="bg-purple-100 inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-purple-100 focus:outline-none"
-          aria-controls="mobile-menu"
-          aria-expanded="false"
-        >
-          <svg
-            className="block h-6 w-6"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      </div>
-      <div>
-        <h1 className="text-7xl">Heal Tea</h1>
-      </div>
+    <div className="fadeIn flex justify-center">
       <div className="bg-gradient-to-r from-fresh-god-50 to-fresh-god-cool-rose shadow-2xl rounded-tl-3xl rounded-br-3xl lg:px-12">
         <div className="flex flex-nowrap flex-col justify-center">
           <img className="mx-auto h-28 mt-0 md:mt-1" src={cup} alt="Workflow" />
