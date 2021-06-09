@@ -3,7 +3,7 @@ import Router from "./components/pages/Router";
 import ReactSession from "./tools/ReactSession";
 
 function App() {
-  ReactSession.setStoreType("");
+  ReactSession.setStoreType("cookie");
 
   return (
     <ToastProvider placement="bottom-right">
