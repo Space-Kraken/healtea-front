@@ -91,7 +91,7 @@ export default function Login(props) {
   if (loading) return <Loader />;
 
   return (
-    <div className="fadeIn flex max-h-96 sm:max-h-full sm:h-3/4 md:h-4/5 bg-gradient-to-r from-fresh-god-50 to-fresh-god-cool-rose shadow-2xl rounded-tl-3xl rounded-br-3xl lg:px-12">
+    <div className="fadeIn flex h-full sm:h-3/4 md:h-4/5 bg-gradient-to-r from-fresh-god-50 to-fresh-god-cool-rose shadow-2xl rounded-tl-3xl rounded-br-3xl lg:px-12">
       <div className="flex flex-nowrap flex-col justify-center">
         <img className="mx-auto h-28 mt-0 md:mt-1" src={cup} alt="Workflow" />
         <h2 className="text-center sm:text-xl font-extrabold text-gray-900">

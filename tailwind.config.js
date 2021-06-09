@@ -10,6 +10,7 @@ module.exports = {
         "fresh-god": {
           "cool-rose": "#E7B7C8",
           "magic-blue": "#63BCC9",
+          "magic-bd": "#f5f5f5",
           900: "#442C2E",
           50: "#CDB3D4",
         },
