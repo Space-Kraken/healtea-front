@@ -26,7 +26,12 @@ const LOGIN = gql`
 `;
 
 export default function Login(props) {
-  const [setCookie] = useCookies(["user", "token", "license", "image"]);
+  const [cookies, setCookie] = useCookies([
+    "user",
+    "token",
+    "license",
+    "image",
+  ]);
   const manageSession = props;
   const [formData, setformData] = useState({
     email: "",
