@@ -50,7 +50,7 @@ export default function Home() {
         </div>
       </div>
       <br />
-      <div className="fadeIn divide-y-4 divide-gray-300">
+      <div className="fadeInDown divide-y-4 divide-gray-300">
         <div className="m-2">
           <h1 className="text-gray-900 font-bold text-base md:text-xl mb-2 ">
             ¿When should I go to receive medical attention?
@@ -106,7 +106,7 @@ export default function Home() {
         </div>
       </div>
       <br />
-      <div className="fadeIn divide-y-4 divide-gray-300">
+      <div className="fadeInDown divide-y-4 divide-gray-300">
         <div className="m-2">
           <h1 className="text-gray-900 font-bold text-base md:text-xl mb-2 ">
             And that is accompanied by any of the following:
