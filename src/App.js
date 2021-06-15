@@ -7,7 +7,7 @@ function App() {
 
   return (
     <ToastProvider placement="bottom-right">
-      <div className="bg-gradient-to-r from-fresh-god-magic-blue via-fresh-god-50 to-fresh-god-cool-rose flex flex-col w-screen h-full justify-evenly">
+      <div className="bg-gradient-to-r from-fresh-god-magic-blue via-fresh-god-50 to-fresh-god-cool-rose flex flex-col w-full h-full justify-evenly">
         <Router />
       </div>
     </ToastProvider>
