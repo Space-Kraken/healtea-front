@@ -14,23 +14,17 @@ import { useCookies } from "react-cookie";
 
 export default function Router() {
   const { addToast } = useToasts();
-  const [cookies, remove] = useCookies(["user", "license"]);
-  const [session, setSession] = useState(
-    cookies.user !== "undefined" ? true : false
-  );
+  const [cookies, remove, setCookie] = useCookies(["user", "license"]);
+  const [session, setSession] = useState(cookies.user ? true : false);
   const initSession = (state) => {
     setSession(state);
   };
 
   const deleteSession = () => {
-    remove("user");
+    setCookie("user", undefined, { path: "/" });
     remove("license");
     remove("token");
     remove("image");
-    // ReactSession.remove("user");
-    // ReactSession.remove("license");
-    // ReactSession.remove("token");
-    // ReactSession.remove("image");
   };
 
   return (

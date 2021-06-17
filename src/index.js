@@ -5,6 +5,9 @@ import "./index.css";
 import { CookiesProvider } from "react-cookie";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import env from "dotenv";
+
+env.config();
 
 const client = new ApolloClient({
   uri: "http://192.168.1.68:3100/",
