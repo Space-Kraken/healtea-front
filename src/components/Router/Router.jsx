@@ -63,6 +63,12 @@ export default function Router() {
               <Route path="/Summary">
                 <Dashboard.Summary />
               </Route>
+              <Route path="/Medical-records">
+                <Dashboard.MedicalRecords />
+              </Route>
+              <Route path="/User/:id">
+                <Dashboard.User />
+              </Route>
               <Route path="/Appointments/:id">
                 <System.Appointment />
               </Route>
