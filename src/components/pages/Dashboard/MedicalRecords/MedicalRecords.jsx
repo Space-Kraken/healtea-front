@@ -48,7 +48,7 @@ export default function MedicalRecords() {
                     scope="col"
                     className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Name
+                    Patient
                   </th>
                   <th
                     scope="col"
