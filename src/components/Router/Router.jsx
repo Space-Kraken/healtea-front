@@ -9,7 +9,7 @@ import Navbar from "./../UI/organisms/Navbar";
 import Login from "./../pages/Login";
 import Home from "./../pages/Home";
 import { System } from "./../pages/System";
-import { Dashboard } from "./../pages/Dashboard";
+import { Dashboard } from "./../pages/Admin";
 import { useCookies } from "react-cookie";
 
 export default function Router() {
