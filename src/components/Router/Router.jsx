@@ -60,6 +60,9 @@ export default function Router() {
           </Route>
           {cookies.license === "Admin" ? (
             <>
+              <Route path="/dashboard">
+                <Dashboard.Main />
+              </Route>
               <Route path="/Summary">
                 <Dashboard.Summary />
               </Route>
