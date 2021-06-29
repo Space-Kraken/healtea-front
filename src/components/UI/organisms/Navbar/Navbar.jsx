@@ -34,11 +34,13 @@ export default function Navbar(props) {
                   ) : null}
                   <Link
                     className={`px-3 py-2 rounded-2xl shadow-xl hover:bg-purple-50 bg-purple-100 ${
-                      pathname === "/" ? "font-bold italic" : "text-gray-700"
+                      pathname === "/" || pathname === "/Summary"
+                        ? "font-bold italic"
+                        : "text-gray-700"
                     }`}
-                    to="/"
+                    to={cookies.license === "Admin" ? "/Summary" : "/"}
                   >
-                    Home
+                    {cookies.license === "Admin" ? "Summary" : "Home"}
                   </Link>
                   <Link
                     className={`px-3 py-2 rounded-2xl shadow-xl hover:bg-purple-50 bg-purple-100 ${
@@ -116,15 +118,32 @@ export default function Navbar(props) {
                 {console.log(pathname)}
                 <Link
                   className={`${
-                    pathname === "/" ? "font-bold italic" : "text-gray-700"
+                    pathname === "/" || pathname === "/Dashboard"
+                      ? "font-bold italic"
+                      : "text-gray-700"
                   }`}
-                  to="/"
+                  to={cookies.license ? "/Dashboard" : "/"}
                   onClick={() => {
                     setIsOpen(!isOpen);
                   }}
                 >
-                  Home
+                  {cookies.license === "Admin" ? "Dashboar" : "Home"}
                 </Link>
+                {cookies.license === "Admin" ? (
+                  <Link
+                    className={`${
+                      pathname === "/Summary"
+                        ? "font-bold italic"
+                        : "text-gray-700"
+                    }`}
+                    to="/Summary"
+                    onClick={() => {
+                      setIsOpen(!isOpen);
+                    }}
+                  >
+                    Summary
+                  </Link>
+                ) : null}
                 <Link
                   className={`${
                     pathname === "/login" ? "font-bold italic" : "text-gray-700"

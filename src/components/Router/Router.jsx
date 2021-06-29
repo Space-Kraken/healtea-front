@@ -69,6 +69,9 @@ export default function Router() {
               <Route path="/Medical-records">
                 <Dashboard.MedicalRecords />
               </Route>
+              <Route path="/Users">
+                <Dashboard.Users />
+              </Route>
               <Route path="/User/:id">
                 <Dashboard.User />
               </Route>

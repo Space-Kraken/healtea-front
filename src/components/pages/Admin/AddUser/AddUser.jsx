@@ -1,0 +1,182 @@
+import React, { useState, Fragment } from "react";
+import { HiOutlineSave, HiOutlineX } from "react-icons/hi";
+import { MdArrowDropDown } from "react-icons/md";
+import { IconContext } from "react-icons";
+import { Listbox, Transition } from "@headlessui/react";
+import { gql, useQuery, useMutation } from "@apollo/client";
+import { GET_ROLES } from "./../User/Querys";
+import Loader from "./../../../UI/organisms/Loader";
+
+const ENROL_USER = gql`
+  mutation Enrol($email: String!, $password: String!, $role: String!) {
+    enrol(email: $email, password: $password, role: $role) {
+      id
+    }
+  }
+`;
+
+export default function AddUser({ close }) {
+  const { data, loading } = useQuery(GET_ROLES);
+
+  const [enrolUser] = useMutation(ENROL_USER, {
+    onCompleted: (data) => {
+      close();
+    },
+  });
+
+  const [rolSelected, setrolSelected] = useState({ rolType: "Choose one" });
+
+  const [form, setform] = useState({
+    email: "",
+    password: "",
+  });
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
+
+  const handleSubmit = () => {
+    if (validate()) {
+      enrolUser({
+        variables: {
+          email: form.email,
+          password: form.password,
+          role: rolSelected.id,
+        },
+      });
+    }
+  };
+
+  const validate = () => {
+    if (form.email !== "") {
+      if (form.password !== "") {
+        if (rolSelected.rolType !== "Choose one") {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
+
+  if (loading) return <Loader />;
+
+  return (
+    <div className="flex flex-col w-full justify-center">
+      <h1 className="self-center">Add User</h1>
+      <div className="w-auto">
+        <div className="flex flex-row justify-center items-center my-2">
+          <div className="flex w-1/3 justify-center border border-r-0 rounded-l-lg border-gray-400 px-2 py-2">
+            Email
+          </div>
+          <div className="border border-l-0 rounded-r-lg border-gray-400 bg-gray-200 py-2 px-2">
+            <input
+              value={form.email}
+              onChange={(e) => {
+                setform((form) => ({ ...form, email: e.target.value }));
+              }}
+            />
+          </div>
+        </div>
+        <div className="flex flex-row justify-center items-center my-2">
+          <div className="flex w-1/3 justify-center border border-r-0 rounded-l-lg border-gray-400 px-2 py-2">
+            Password
+          </div>
+          <div className="border border-l-0 rounded-r-lg border-gray-400 bg-gray-200 py-2 px-2">
+            <input
+              value={form.password}
+              onChange={(e) => {
+                setform((form) => ({ ...form, password: e.target.value }));
+              }}
+            />
+          </div>
+        </div>
+        <div className="flex flex-row justify-center items-center my-2">
+          <div className="flex w-1/3 justify-center border border-r-0 rounded-l-lg border-gray-400 px-2 py-2">
+            Role
+          </div>
+          <div className="flex w-full justify-center border border-l-0 rounded-r-lg border-gray-400 bg-gray-200 py-2 px-2">
+            <Listbox value={rolSelected} onChange={setrolSelected}>
+              {({ open }) => (
+                <>
+                  <div className="relative">
+                    <Listbox.Button className="w-full  rounded-r-lg pl-2 pr-7 text-left cursor-pointer focus:outline-none sm:text-sm">
+                      <span className="flex items">{rolSelected.rolType}</span>
+                      <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <MdArrowDropDown
+                          className="h-5 w-5 text-gray-400"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </Listbox.Button>
+                    <Transition
+                      show={open}
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options
+                        className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                        static
+                      >
+                        {data.getRoles.map((rol) => (
+                          <Listbox.Option
+                            className={({ active }) =>
+                              classNames(
+                                active
+                                  ? "text-white bg-indigo-600"
+                                  : "text-gray-900",
+                                "cursor-default select-none relative py-2 pl-3 pr-9"
+                              )
+                            }
+                            key={rol.id}
+                            value={rol}
+                          >
+                            {({ selected, active }) => (
+                              <>
+                                <div className="flex items-center">
+                                  <span>{rol.rolType}</span>
+                                </div>
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </>
+              )}
+            </Listbox>
+          </div>
+        </div>
+        <div className="flex flex-row pt-2 justify-around items-center my-2">
+          <div
+            className="flex w-1/3 justify-center border rounded-lg border-gray-400 bg-green-300 px-2 py-2"
+            onClick={() => {
+              handleSubmit();
+            }}
+          >
+            <IconContext.Provider value={{ size: "1.5rem" }}>
+              <HiOutlineSave />
+            </IconContext.Provider>
+          </div>
+          <div
+            className="flex w-1/3 justify-center border rounded-lg border-gray-400 bg-red-300 px-2 py-2"
+            onClick={() => {
+              close();
+            }}
+          >
+            <IconContext.Provider value={{ size: "1.5rem" }}>
+              <HiOutlineX />
+            </IconContext.Provider>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
