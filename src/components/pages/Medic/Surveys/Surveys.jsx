@@ -30,11 +30,13 @@ export default function Surveys() {
 
     return (
         <div class="min-w-screen h-screen animated fadeIn faster fixed left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none">
-            <div class="flex flex-col p-8 bg-white shadow-md hover:shodow-lg rounded-2xl">
+            <div className="flex flex-col">
+            
+            {data.getSurveys.map((survey, key)=>(
+                <div class="flex flex-col mb-2 p-8 bg-white shadow-md hover:shodow-lg rounded-2xl">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        {data.getSurveys.map((survey)=>(
-                        <div class="flex flex-col ml-3">
+                    <div class="flex flex-col ml-3">
                         <table className="table-fixed">
                             <thead>
                                 <tr>
@@ -44,9 +46,10 @@ export default function Surveys() {
                                 </tr>
                             </thead>
                             <tbody>
+                                
                                 <tr className="">
                                 <td className=" text-sm">
-                                    {survey.id}
+                                    {key + 1}
                                 </td>
                                 <td className=" text-sm">
                                     {survey.patient.userData.name}
@@ -57,15 +60,16 @@ export default function Surveys() {
                                 </tr>
                             </tbody>
                             </table>
-                            <div className="content-center">
-                            <button onClick={()=>{path.push(`/SurveyDetails/${survey.id}`)}} class="flex-no-shrink bg-green-300 px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2  text-white rounded-full">
+                            <div className="content-center m-4">
+                            <button class="bg-green-300 px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2  text-white rounded-full">
                                 Survey answers
                             </button>
                             </div>
                         </div>
-                        ))}
                     </div>
                 </div>
+            </div>
+            ))}
             </div>
         </div>
     )

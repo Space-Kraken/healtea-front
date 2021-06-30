@@ -7,16 +7,20 @@ import { useHistory } from "react-router-dom";
 
 
 const GET_APPOINTMENTS = gql`
-    query GetAppointments{
-        getAppointments{
+    query GetUser($user:String!){
+        getUser(user:$user){
             id
-            patient{
+                medicalRecord{
+              patient{
                 userData{
-                name
+                  name
+                }
+              }
+              appointments{
+                status
+                request
               }
             }
-            request
-            status
         }
     }
 `
@@ -24,7 +28,9 @@ const GET_APPOINTMENTS = gql`
 export default function Appointments() {
     let {id}=useParams()
 
-    const {data, loading} = useQuery(GET_APPOINTMENTS)
+    const {data, loading} = useQuery(GET_APPOINTMENTS, {
+        variables:{user:id}    
+    })
     let path=useHistory()
     if(loading) return < Loader />
 
@@ -43,10 +49,10 @@ export default function Appointments() {
                 </tr>
             </thead>
             <tbody>
-            {data.getAppointments.map((appointment)=>(
+            {data.getUser.medicalRecord.appointments.map((appointment)=>(
                 <tr className="bg-blue-200">
                 <td className="border-b border-gray-200 bg-white text-sm">
-                    {appointment.patient.userData.name}
+                    {data.getUser.medicalRecord.patient.userData.name}
                 </td>
                 <td className="border-b border-gray-200 bg-white text-sm">
                     {appointment.request}
