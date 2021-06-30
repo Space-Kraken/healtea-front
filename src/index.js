@@ -10,7 +10,7 @@ import env from "dotenv";
 env.config();
 
 const client = new ApolloClient({
-  uri: "http://192.168.1.68:3100/",
+  uri: "http://localhost:3100/",
   cache: new InMemoryCache(),
 });
 

@@ -9,8 +9,12 @@ import Navbar from "./../UI/organisms/Navbar";
 import Login from "./../pages/Login";
 import Home from "./../pages/Home";
 import { System } from "./../pages/System";
+
+import { Medic } from "../pages/Medic";
+
 import { Dashboard } from "./../pages/Admin";
 import { useCookies } from "react-cookie";
+
 
 export default function Router() {
   const { addToast } = useToasts();
@@ -37,6 +41,24 @@ export default function Router() {
           <Route exact path="/">
             <Home />
           </Route>
+          
+          <Route path="/Patients">
+            <Medic.Patients />
+          </Route>
+          <Route path="/Appointments/:id">
+            <Medic.Appointments />
+          </Route>
+          <Route path="/Tests/:id">
+            <Medic.Tests />
+          </Route>
+          <Route path="/Surveys/:id">
+            <Medic.Surveys />
+          </Route>
+          <Route path="/SurveysDetails">
+            <Medic.Surveys />
+          </Route>
+          
+
           <Route path="/login">
             {session ? (
               <Redirect to={cookies.license === "Admin" ? "/Summary" : "/"} />
