@@ -1,7 +1,7 @@
 import React, { useState, Fragment, useEffect, forwardRef } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, from } from "@apollo/client";
 import Loader from "./../../../UI/organisms/Loader";
 import { useCookies } from "react-cookie";
 import { IoSettings } from "react-icons/io5";
@@ -9,7 +9,13 @@ import { HiOutlineSave, HiOutlineX } from "react-icons/hi";
 import { MdArrowDropDown } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { Listbox, Transition } from "@headlessui/react";
-import { GET_USER, GET_ROLES, UPDATE_USER } from "./Querys";
+import {
+  GET_USER,
+  GET_ROLES,
+  UPDATE_USER,
+  UPDATE_PRIVATE,
+  UPDATE_ADDRESS,
+} from "./Querys";
 import { useToasts } from "react-toast-notifications";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -20,9 +26,19 @@ export default function User() {
     variables: { user: id },
   });
   const { data: roles } = useQuery(GET_ROLES);
-  const [updateUser, { data: update }] = useMutation(UPDATE_USER, {
+
+  const [updateUser] = useMutation(UPDATE_USER, {
     refetchQueries: [{ query: GET_USER, variables: { user: id } }],
   });
+
+  const [updatePrivate] = useMutation(UPDATE_PRIVATE, {
+    refetchQueries: [{ query: GET_USER, variables: { user: id } }],
+  });
+
+  const [updateAddress] = useMutation(UPDATE_ADDRESS, {
+    refetchQueries: [{ query: GET_USER, variables: { user: id } }],
+  });
+
   const [section, setsection] = useState("info");
   const [cookies] = useCookies(["image"]);
 
@@ -37,11 +53,18 @@ export default function User() {
     { id: 1, value: false, status: "Inactive" },
   ];
 
+  const gender = [
+    { id: "F", value: "Female" },
+    { id: "M", value: "Male" },
+    { id: "NA", value: "Uknow" },
+  ];
+
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
 
   const [rolSelected, setrolSelected] = useState();
+  const [genderSelected, setGenderSelected] = useState();
   const [selectedStatus, setStatus] = useState();
 
   const [form, setform] = useState({
@@ -56,10 +79,12 @@ export default function User() {
 
       setStatus({ status: data.getUser.active ? "Active" : "Disabled" });
 
+      setGenderSelected(data.getUser.userData.gender);
+
       setStartDate(
         data.getUser.userData.age === "NA"
-          ? new Date()
-          : data.getUser.userData.age
+          ? new Date("6/1/1990")
+          : new Date(data.getUser.userData.age)
       );
 
       setform((form) => ({
@@ -78,16 +103,6 @@ export default function User() {
       }));
     }
   }, [data]);
-
-  const CustomDate = forwardRef(({ value, onClick }, ref) => (
-    <button
-      className="px-2 w-full focus:outline-none"
-      onClick={onClick}
-      ref={ref}
-    >
-      {value}
-    </button>
-  ));
 
   const profileEdit = (type) => {
     switch (type) {
@@ -122,14 +137,6 @@ export default function User() {
           email: data.getUser.email,
           role: data.getUser.role.rolType,
           active: data.getUser.active,
-          name: data.getUser.userData.name,
-          age: data.getUser.userData.age,
-          gender: data.getUser.userData.gender,
-          tel: data.getUser.userData.tel,
-          state: data.getUser.userData.address.state,
-          city: data.getUser.userData.address.city,
-          street: data.getUser.userData.address.street,
-          postalCode: data.getUser.userData.address.postalCode,
         }));
         break;
       default:
@@ -147,7 +154,17 @@ export default function User() {
           appearance: "success",
           autoDismiss: true,
         });
-
+        updatePrivate({
+          variables: {
+            user: id,
+            name: form.name,
+            age: `${
+              startDate.getMonth() + 1
+            }/${startDate.getDate()}/${startDate.getFullYear()}`,
+            gender: genderSelected.id,
+            tel: form.tel,
+          },
+        });
         break;
       case "edit":
         addToast("Editing is enabled", {
@@ -176,7 +193,50 @@ export default function User() {
       private: !isEditable.private,
     }));
   };
-  const addressEdit = () => {};
+  const addressEdit = (type) => {
+    switch (type) {
+      case "save":
+        addToast("Saving...", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        updateAddress({
+          variables: {
+            user: id,
+            state: form.state,
+            city: form.city,
+            street: form.street,
+            postalCode: form.postalCode,
+          },
+        });
+        break;
+      case "edit":
+        addToast("Editing is enabled", {
+          appearance: "info",
+          autoDismiss: true,
+        });
+        break;
+      case "cancel":
+        addToast("Operation aborted", {
+          appearance: "warning",
+          autoDismiss: true,
+        });
+        setform((form) => ({
+          ...form,
+          state: data.getUser.userData.address.state,
+          city: data.getUser.userData.address.city,
+          street: data.getUser.userData.address.street,
+          postalCode: data.getUser.userData.address.postalCode,
+        }));
+        break;
+      default:
+        return;
+    }
+    setEditable((isEditable) => ({
+      ...isEditable,
+      address: !isEditable.address,
+    }));
+  };
 
   if (loading) return <Loader />;
 
@@ -472,24 +532,20 @@ export default function User() {
                   Name
                 </div>
                 <input
-                  className={`w-auto px-2 py-4 md:px-2 md:py-2 rounded-r-lg text-center ${
+                  className={`w-full px-2 py-4 md:px-2 md:py-2 rounded-r-lg text-center ${
                     isEditable.private ? "bg-blue-200" : "bg-gray-200"
                   }`}
-                  value={data.getUser.userData.name}
+                  value={form.name}
                   onChange={(e) => {
                     setform((form) => ({ ...form, name: e.target.value }));
                   }}
                   disabled={!isEditable.private}
                 />
               </div>
-              <div className="mt-2 flex flex-row flex-nowrap">
+              <div className="mt-2 flex flex-row items-center flex-nowrap">
                 <div className="px-2 py-2 w-2/3 border-l border-t border-b rounded-l-lg">
                   Birthday
                 </div>
-                {/* <input
-                  className="bg-gray-200 w-1/3 px-2 py-4 md:px-2 md:py-2 rounded-r-lg text-center"
-                  value=""
-                /> */}
                 <div
                   className={`flex items-center rounded-r-lg ${
                     isEditable.private ? "bg-blue-200" : "bg-gray-200"
@@ -497,8 +553,10 @@ export default function User() {
                 >
                   <DatePicker
                     selected={startDate}
+                    dateFormat="dd/MM/yyyy"
+                    className="h-8"
                     onChange={(date) => setStartDate(date)}
-                    customInput={<CustomDate />}
+                    disabled={!isEditable.private}
                   />
                 </div>
               </div>
@@ -506,53 +564,193 @@ export default function User() {
                 <div className="px-2 py-2 w-2/3 border-l border-t border-b rounded-l-lg">
                   Gender
                 </div>
-                <div className="bg-gray-200 px-2 py-2 w-1/3 rounded-r-lg">
-                  {data.getUser.userData.gender === "F" ? "Female" : "Male"}
+                <div
+                  className={`flex items-center rounded-r-lg w-full justify-center ${
+                    isEditable.private ? "bg-blue-200" : "bg-gray-200"
+                  }`}
+                >
+                  {isEditable.private ? (
+                    <Listbox
+                      value={genderSelected}
+                      onChange={setGenderSelected}
+                    >
+                      {({ open }) => (
+                        <>
+                          <div className="relative">
+                            <Listbox.Button className="relative w-full  rounded-r-lg pl-2 pr-7 py-2 text-left cursor-pointer focus:outline-none sm:text-sm">
+                              <span className="flex items-center">
+                                {genderSelected.id === "F"
+                                  ? "Female"
+                                  : genderSelected.id === "M"
+                                  ? "Male"
+                                  : "Uknow"}
+                              </span>
+                              <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                <MdArrowDropDown
+                                  className="h-5 w-5 text-gray-400"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                            </Listbox.Button>
+                            <Transition
+                              show={open}
+                              as={Fragment}
+                              leave="transition ease-in duration-100"
+                              leaveFrom="opacity-100"
+                              leaveTo="opacity-0"
+                            >
+                              <Listbox.Options
+                                className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                                static
+                              >
+                                {gender.map((gender) => (
+                                  <Listbox.Option
+                                    className={({ active }) =>
+                                      classNames(
+                                        active
+                                          ? "text-white bg-indigo-600"
+                                          : "text-gray-900",
+                                        "cursor-default select-none relative py-2 pl-3 pr-9"
+                                      )
+                                    }
+                                    key={gender.id}
+                                    value={gender}
+                                  >
+                                    {({ selected, active }) => (
+                                      <>
+                                        <div className="flex items-center">
+                                          <span>{gender.value}</span>
+                                        </div>
+                                      </>
+                                    )}
+                                  </Listbox.Option>
+                                ))}
+                              </Listbox.Options>
+                            </Transition>
+                          </div>
+                        </>
+                      )}
+                    </Listbox>
+                  ) : (
+                    <input
+                      className={`w-auto px-2 py-4 md:px-2 md:py-2 rounded-r-lg text-center ${
+                        isEditable.private ? "bg-blue-200" : "bg-gray-200"
+                      }`}
+                      value={
+                        data.getUser.userData.gender === "F" ? "Female" : "Male"
+                      }
+                      disabled={true}
+                    />
+                  )}
                 </div>
               </div>
               <div className="my-2 flex flex-row flex-nowrap">
                 <div className="px-2 py-2 w-2/3 border-l border-t border-b rounded-l-lg">
                   Tel
                 </div>
-                <div className="bg-gray-200 px-2 py-2 rounded-r-lg">
-                  {data.getUser.userData.tel}
-                </div>
+                <input
+                  className={`w-auto px-2 py-4 md:px-2 md:py-2 rounded-r-lg text-center ${
+                    isEditable.private ? "bg-blue-200" : "bg-gray-200"
+                  }`}
+                  value={form.tel}
+                  onChange={(e) => {
+                    setform((form) => ({ ...form, tel: e.target.value }));
+                  }}
+                />
               </div>
             </div>
             <div className="w-full h-full my-2 md:w-auto md:text-base md:m-4 text-xs border border-gray-200 shadow-lg bg-white p-4 rounded-tl-3xl rounded-br-3xl">
-              <h1 className="mb-2">Address data</h1>
+              <div className="mb-2 flex justify-between items-center">
+                <div className="">Address data</div>
+                <div className="flex items-center">
+                  <motion.div
+                    className="flex justify-center"
+                    whileHover={isEditable.address ? "" : { rotate: -90 }}
+                    onClick={() => {
+                      addressEdit(isEditable.address ? "save" : "edit");
+                    }}
+                  >
+                    <IconContext.Provider value={{ size: "1.5rem" }}>
+                      {isEditable.address ? <HiOutlineSave /> : <IoSettings />}
+                    </IconContext.Provider>
+                  </motion.div>
+                  {isEditable.address ? (
+                    <motion.div
+                      className="ml-2"
+                      whileHover={{ rotate: 90 }}
+                      onClick={() => {
+                        addressEdit("cancel");
+                      }}
+                    >
+                      <IconContext.Provider value={{ size: "1.5rem" }}>
+                        <HiOutlineX />
+                      </IconContext.Provider>
+                    </motion.div>
+                  ) : null}
+                </div>
+              </div>
               <hr />
               <div className="mt-2 flex flex-row flex-nowrap">
                 <div className="px-2 py-2 w-2/3 border-l border-t border-b rounded-l-lg">
                   State
                 </div>
-                <div className="bg-gray-200 w-1/3 px-2 py-4 md:px-2 md:py-2 rounded-r-lg">
-                  {data.getUser.userData.address.state}
-                </div>
+                <input
+                  className={`w-auto px-2 py-4 md:px-2 md:py-2 rounded-r-lg text-center ${
+                    isEditable.address ? "bg-blue-200" : "bg-gray-200"
+                  }`}
+                  value={form.state}
+                  onChange={(event) => {
+                    setform((form) => ({ ...form, state: event.target.value }));
+                  }}
+                />
               </div>
               <div className="mt-2 flex flex-row flex-nowrap">
                 <div className="px-2 py-2 w-2/3 border-l border-t border-b rounded-l-lg">
                   City
                 </div>
-                <div className="bg-gray-200 px-2 py-4 md:px-2 md:py-2 rounded-r-lg">
-                  {data.getUser.userData.address.city}
-                </div>
+                <input
+                  className={`w-auto px-2 py-4 md:px-2 md:py-2 rounded-r-lg text-center ${
+                    isEditable.address ? "bg-blue-200" : "bg-gray-200"
+                  }`}
+                  value={form.city}
+                  onChange={(event) => {
+                    setform((form) => ({ ...form, city: event.target.value }));
+                  }}
+                />
               </div>
               <div className="my-2 flex flex-row flex-nowrap">
                 <div className="px-2 py-2 border-l border-t border-b rounded-l-lg">
                   Street
                 </div>
-                <div className="bg-gray-200 px-2 py-2 rounded-r-lg">
-                  {data.getUser.userData.address.street}
-                </div>
+                <input
+                  className={`w-full px-2 py-4 md:px-2 md:py-2 rounded-r-lg text-center ${
+                    isEditable.address ? "bg-blue-200" : "bg-gray-200"
+                  }`}
+                  value={form.street}
+                  onChange={(event) => {
+                    setform((form) => ({
+                      ...form,
+                      street: event.target.value,
+                    }));
+                  }}
+                />
               </div>
               <div className="my-2 flex flex-row flex-nowrap">
-                <div className="px-2 py-2 border-l w-2/3 border-t border-b rounded-l-lg">
+                <div className="px-2 py-2 border-l w-auto border-t border-b rounded-l-lg">
                   Postal Code
                 </div>
-                <div className="bg-gray-200 w-1/3 px-2 py-2 rounded-r-lg">
-                  {data.getUser.userData.address.postalCode}
-                </div>
+                <input
+                  className={`w-auto px-2 py-4 md:px-2 md:py-2 rounded-r-lg text-center ${
+                    isEditable.address ? "bg-blue-200" : "bg-gray-200"
+                  }`}
+                  value={form.postalCode}
+                  onChange={(event) => {
+                    setform((form) => ({
+                      ...form,
+                      postalCode: event.target.value,
+                    }));
+                  }}
+                />
               </div>
             </div>
           </div>

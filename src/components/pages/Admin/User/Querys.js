@@ -68,3 +68,38 @@ export const UPDATE_USER = gql`
     }
   }
 `;
+
+export const UPDATE_PRIVATE = gql`
+  mutation EditData(
+    $user: String!
+    $name: String!
+    $age: String!
+    $gender: String!
+    $tel: String!
+  ) {
+    editData(user: $user, name: $name, age: $age, gender: $gender, tel: $tel) {
+      id
+    }
+  }
+`;
+export const UPDATE_ADDRESS = gql`
+  mutation EditData(
+    $user: String!
+    $state: String!
+    $city: String!
+    $street: String!
+    $postalCode: String!
+  ) {
+    editData(
+      user: $user
+      address: {
+        state: $state
+        city: $city
+        street: $street
+        postalCode: $postalCode
+      }
+    ) {
+      id
+    }
+  }
+`;
