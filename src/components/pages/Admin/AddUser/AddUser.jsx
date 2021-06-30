@@ -20,7 +20,7 @@ export default function AddUser({ close }) {
 
   const [enrolUser] = useMutation(ENROL_USER, {
     onCompleted: (data) => {
-      close();
+      close("user");
     },
   });
 
@@ -168,7 +168,7 @@ export default function AddUser({ close }) {
           <div
             className="flex w-1/3 justify-center border rounded-lg border-gray-400 bg-red-300 px-2 py-2"
             onClick={() => {
-              close();
+              close("user");
             }}
           >
             <IconContext.Provider value={{ size: "1.5rem" }}>
