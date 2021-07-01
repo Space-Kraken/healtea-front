@@ -49,8 +49,6 @@ export default function Appointments() {
                     </button>
                 </div>
             </form>
-            
-
         </div>
     )
 }
