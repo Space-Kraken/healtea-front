@@ -11,6 +11,7 @@ import Home from "./../pages/Home";
 import { System } from "./../pages/System";
 
 import { Medic } from "../pages/Medic";
+import { User } from "./../pages/User";
 
 import { Dashboard } from "./../pages/Admin";
 import { useCookies } from "react-cookie";
@@ -57,7 +58,22 @@ export default function Router() {
           <Route path="/SurveysDetails">
             <Medic.Surveys />
           </Route>
-          
+
+          <Route path="/DashboardUser">
+            <User.DashboardUser />
+          </Route>
+          <Route path="/AppointmentsUser">
+            <User.Appointments />
+          </Route>
+          <Route path="/RecipesUser">
+            <User.Recipes />
+          </Route>
+          <Route path="/SurveysUser">
+            <User.Surveys />
+          </Route>
+          <Route path="TestsUser">
+            <User.Tests />
+          </Route>
 
           <Route path="/login">
             {session ? (
