@@ -149,7 +149,7 @@ export default function Summary() {
             <Button
               text="See Medical records"
               method={() => {
-                history.push("/Medical-records");
+                history.push("/Dashboard-Medical-records");
               }}
             />
           </div>

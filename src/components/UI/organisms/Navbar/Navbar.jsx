@@ -27,7 +27,7 @@ export default function Navbar(props) {
                           ? "font-bold italic"
                           : "text-gray-700"
                       }`}
-                      to="/dashboard"
+                      to="/Dashboard"
                     >
                       Dashboard
                     </Link>
@@ -38,7 +38,9 @@ export default function Navbar(props) {
                         ? "font-bold italic"
                         : "text-gray-700"
                     }`}
-                    to={cookies.license === "Admin" ? "/Summary" : "/"}
+                    to={
+                      cookies.license === "Admin" ? "/Dashboard-Summary" : "/"
+                    }
                   >
                     {cookies.license === "Admin" ? "Summary" : "Home"}
                   </Link>

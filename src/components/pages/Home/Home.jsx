@@ -8,7 +8,7 @@ export default function Home() {
     <div className="h-auto">
       <div className="fadeIn lg:max-w-full lg:flex shadow-xl rounded">
         <img
-          className="rounded-t-xl h-48 w-full sm:w-auto lg:h-auto text-center border-none border-transparent md:border-r md:border-gray-300"
+          className="rounded-tl-xl h-48 w-full sm:w-auto lg:h-auto text-center border-none border-transparent md:border-r md:border-gray-300"
           title="Mountain"
           alt="Mountain"
           src={Images.coronavirus}

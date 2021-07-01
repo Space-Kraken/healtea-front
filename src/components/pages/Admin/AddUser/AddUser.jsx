@@ -6,6 +6,8 @@ import { Listbox, Transition } from "@headlessui/react";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { GET_ROLES } from "./../User/Querys";
 import Loader from "./../../../UI/organisms/Loader";
+import { useToasts } from "react-toast-notifications";
+import { GET_MEDICALRECORDS } from "./../MedicalRecords/MedicalRecords";
 
 const ENROL_USER = gql`
   mutation Enrol($email: String!, $password: String!, $role: String!) {
@@ -22,7 +24,10 @@ export default function AddUser({ close }) {
     onCompleted: (data) => {
       close("user");
     },
+    refetchQueries: [{ query: GET_MEDICALRECORDS }],
   });
+
+  const { addToast } = useToasts();
 
   const [rolSelected, setrolSelected] = useState({ rolType: "Choose one" });
 
@@ -44,6 +49,10 @@ export default function AddUser({ close }) {
           role: rolSelected.id,
         },
       });
+      addToast("User enroled successfully", {
+        appearance: "success",
+        autoDismiss: true,
+      });
     }
   };
 
@@ -53,12 +62,24 @@ export default function AddUser({ close }) {
         if (rolSelected.rolType !== "Choose one") {
           return true;
         } else {
+          addToast("Please choose a rol", {
+            appearance: "error",
+            autoDismiss: true,
+          });
           return false;
         }
       } else {
+        addToast("Please provide an email", {
+          appearance: "error",
+          autoDismiss: true,
+        });
         return false;
       }
     } else {
+      addToast("Please provide a password", {
+        appearance: "error",
+        autoDismiss: true,
+      });
       return false;
     }
   };

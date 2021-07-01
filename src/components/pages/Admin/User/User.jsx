@@ -1,7 +1,7 @@
 import React, { useState, Fragment, useEffect, forwardRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useQuery, useMutation, from } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import Loader from "./../../../UI/organisms/Loader";
 import { useCookies } from "react-cookie";
 import { IoSettings } from "react-icons/io5";
@@ -19,10 +19,15 @@ import {
 import { useToasts } from "react-toast-notifications";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Appointments from "./../../../../assets/images/MedicalRecords/Appointments.png";
+import Recipes from "./../../../../assets/images/MedicalRecords/Recipes.png";
+import Surveys from "./../../../../assets/images/MedicalRecords/Surveys.png";
+import Test from "./../../../../assets/images/MedicalRecords/Test.png";
 
 export default function User() {
   let { id } = useParams();
-  const { data, loading, error } = useQuery(GET_USER, {
+  let path = useHistory();
+  const { data, loading } = useQuery(GET_USER, {
     variables: { user: id },
   });
   const { data: roles } = useQuery(GET_ROLES);
@@ -107,7 +112,7 @@ export default function User() {
   const profileEdit = (type) => {
     switch (type) {
       case "save":
-        addToast("Saving...", {
+        addToast("Changes saved", {
           appearance: "success",
           autoDismiss: true,
         });
@@ -115,7 +120,7 @@ export default function User() {
           variables: {
             id,
             email: form.email,
-            password: form.password,
+            password: form.password === "password" ? "" : form.password,
             role: rolSelected.id,
             active: selectedStatus.value,
           },
@@ -150,7 +155,7 @@ export default function User() {
   const privateEdit = (type) => {
     switch (type) {
       case "save":
-        addToast("Saving...", {
+        addToast("Changes saved", {
           appearance: "success",
           autoDismiss: true,
         });
@@ -196,7 +201,7 @@ export default function User() {
   const addressEdit = (type) => {
     switch (type) {
       case "save":
-        addToast("Saving...", {
+        addToast("Changes saved", {
           appearance: "success",
           autoDismiss: true,
         });
@@ -281,7 +286,7 @@ export default function User() {
               />
             </div>
           </div>
-          <div className="flex flex-col justify-center md:flex-row w-full">
+          <div className="flex flex-col justify-center lg:flex-row w-full">
             <div className="w-full h-full mb-2 md:w-auto md:text-base text-xs md:m-4 border border-gray-200 shadow-lg bg-white p-4 rounded-tl-3xl rounded-br-3xl">
               <div className="mb-2 flex justify-between items-center">
                 <div className="">Profile data</div>
@@ -656,6 +661,7 @@ export default function User() {
                   onChange={(e) => {
                     setform((form) => ({ ...form, tel: e.target.value }));
                   }}
+                  disabled={!isEditable.private}
                 />
               </div>
             </div>
@@ -702,6 +708,7 @@ export default function User() {
                   onChange={(event) => {
                     setform((form) => ({ ...form, state: event.target.value }));
                   }}
+                  disabled={!isEditable.address}
                 />
               </div>
               <div className="mt-2 flex flex-row flex-nowrap">
@@ -716,6 +723,7 @@ export default function User() {
                   onChange={(event) => {
                     setform((form) => ({ ...form, city: event.target.value }));
                   }}
+                  disabled={!isEditable.address}
                 />
               </div>
               <div className="my-2 flex flex-row flex-nowrap">
@@ -733,6 +741,7 @@ export default function User() {
                       street: event.target.value,
                     }));
                   }}
+                  disabled={!isEditable.address}
                 />
               </div>
               <div className="my-2 flex flex-row flex-nowrap">
@@ -750,6 +759,7 @@ export default function User() {
                       postalCode: event.target.value,
                     }));
                   }}
+                  disabled={!isEditable.address}
                 />
               </div>
             </div>
@@ -757,8 +767,99 @@ export default function User() {
         </div>
       ) : null}
       {section === "medicalRecord" ? (
-        <div className="pt-3">
-          <h1>Medical Records</h1>
+        <div className="mt-4 flex flex-col md:flex-row justify-center">
+          <div className="fadeInDown divide-y-4 divide-gray-300 m-4">
+            <div className="flex flex-col items-center p-4 justify-center bg-white rounded-lg shadow-md">
+              <motion.div
+                animate={{ opacity: [0, 1] }}
+                transition={{ duration: 0.8 }}
+                className="w-32 md:w-full py-2"
+              >
+                <img src={Appointments} alt="appointments" />
+              </motion.div>
+              <div>
+                <div className="content-center">
+                  <button
+                    onClick={() => {
+                      path.push(`/Dashboard-Appointments/${id}`);
+                    }}
+                    className="w-auto inline-flex bg-purple-600 text-white rounded-lg h-6 px-3 justify-center items-center m-1 p-4"
+                  >
+                    Appointments
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="fadeInDown divide-y-4 divide-gray-300 m-4">
+            <div className="flex flex-col items-center p-4 justify-center bg-white rounded-lg shadow-md">
+              <motion.div
+                animate={{ opacity: [0, 1] }}
+                transition={{ duration: 0.8 }}
+                className="w-32 md:w-full py-2"
+              >
+                <img src={Recipes} alt="appointments" />
+              </motion.div>
+              <div>
+                <div className="content-center">
+                  <button
+                    onClick={() => {
+                      path.push(`/Dashboard-Recipes/${id}`);
+                    }}
+                    className="w-auto inline-flex bg-purple-600 text-white rounded-lg h-6 px-3 justify-center items-center m-1 p-4"
+                  >
+                    Recipes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="fadeInDown divide-y-4 divide-gray-300 m-4">
+            <div className="flex flex-col items-center p-4 justify-center bg-white rounded-lg shadow-md">
+              <motion.div
+                animate={{ opacity: [0, 1] }}
+                transition={{ duration: 0.8 }}
+                className="w-32 md:w-full py-2"
+              >
+                <img src={Surveys} alt="appointments" />
+              </motion.div>
+              <div>
+                <div className="content-center">
+                  <button
+                    onClick={() => {
+                      path.push(`/Dashboard-Surveys/${id}`);
+                    }}
+                    className="w-auto inline-flex bg-purple-600 text-white rounded-lg h-6 px-3 justify-center items-center m-1 p-4"
+                  >
+                    Surveys
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="fadeInDown divide-y-4 divide-gray-300 m-4">
+            <div className="flex flex-col items-center p-4 justify-center bg-white rounded-lg shadow-md">
+              <motion.div
+                animate={{ opacity: [0, 1] }}
+                transition={{ duration: 0.8 }}
+                className="w-32 md:w-full py-2"
+              >
+                <img src={Test} alt="appointments" />
+              </motion.div>
+              <div>
+                <div className="content-center">
+                  <button
+                    onClick={() => {
+                      path.push(`/Dashboard-Tests/${id}`);
+                    }}
+                    className="w-auto inline-flex bg-purple-600 text-white rounded-lg h-6 px-3 justify-center items-center m-1 p-4"
+                  >
+                    Tests
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       ) : null}
     </div>

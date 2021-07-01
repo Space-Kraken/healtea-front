@@ -3,7 +3,13 @@ TODO Cambiar system path
 */
 
 import React, { useState } from "react";
-import { Route, BrowserRouter, Switch, Redirect } from "react-router-dom";
+import {
+  Route,
+  BrowserRouter,
+  Switch,
+  Redirect,
+  useParams,
+} from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 import Navbar from "./../UI/organisms/Navbar";
 import Login from "./../pages/Login";
@@ -15,7 +21,6 @@ import { Medic } from "../pages/Medic";
 import { Dashboard } from "./../pages/Admin";
 import { useCookies } from "react-cookie";
 
-
 export default function Router() {
   const { addToast } = useToasts();
   const [cookies, remove, setCookie] = useCookies(["user", "license"]);
@@ -26,7 +31,7 @@ export default function Router() {
 
   const deleteSession = () => {
     setCookie("user", undefined, { path: "/" });
-    remove("license");
+    setCookie("license", undefined, { path: "/" });
     remove("token");
     remove("image");
   };
@@ -41,27 +46,17 @@ export default function Router() {
           <Route exact path="/">
             <Home />
           </Route>
-          
-          <Route path="/Patients">
-            <Medic.Patients />
-          </Route>
-          <Route path="/Appointments/:id">
-            <Medic.Appointments />
-          </Route>
-          <Route path="/Tests/:id">
-            <Medic.Tests />
-          </Route>
-          <Route path="/Surveys/:id">
-            <Medic.Surveys />
-          </Route>
-          <Route path="/SurveysDetails">
-            <Medic.Surveys />
-          </Route>
-          
-
           <Route path="/login">
             {session ? (
-              <Redirect to={cookies.license === "Admin" ? "/Summary" : "/"} />
+              <Redirect
+                to={
+                  cookies.license === "Admin"
+                    ? "/Dashboard-Summary"
+                    : cookies.license === "Medic"
+                    ? "/Patients"
+                    : "/"
+                }
+              />
             ) : (
               <Login initSesion={initSession} />
             )}
@@ -80,51 +75,136 @@ export default function Router() {
               <Redirect from="/logout" to="/" />
             )}
           </Route>
-          {cookies.license === "Admin" ? (
-            <>
-              <Route path="/dashboard">
-                <Dashboard.Main />
-              </Route>
-              <Route path="/Summary">
-                <Dashboard.Summary />
-              </Route>
-              <Route path="/Medical-records">
-                <Dashboard.MedicalRecords />
-              </Route>
-              <Route path="/Users">
-                <Dashboard.Users />
-              </Route>
-              <Route path="/User/:id">
-                <Dashboard.User />
-              </Route>
-              <Route path="/Appointments/:id">
-                <System.Appointment />
-              </Route>
-              <Route path="/Appointments">
-                <System.Appointments />
-              </Route>
-              <Route path="/Recipes">
-                <System.Recipes />
-              </Route>
-              <Route path="/Recipes/:id">
-                <System.Recipe />
-              </Route>
-              <Route path="/Surveys">
-                <System.Surveys />
-              </Route>
-              <Route path="/Surveys/:id">
-                <System.Survey />
-              </Route>
-              <Route path="/Tests">
-                <System.Tests />
-              </Route>
-              <Route path="/Tests/:id">
-                <System.Test />
-              </Route>
-            </>
-          ) : (
-            <Redirect to="/" />
-          )}
+          <Route path="/Dashboard">
+            {cookies.license === "Admin" ? (
+              <Dashboard.Main />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          {/* Completed */}
+          <Route path="/Dashboard-Summary">
+            {cookies.license === "Admin" ? (
+              <Dashboard.Summary />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          {/* Completed */}
+          <Route path="/Dashboard-Medical-records">
+            {cookies.license === "Admin" ? (
+              <Dashboard.MedicalRecords />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          {/* Completed */}
+          <Route path="/Dashboard-Users">
+            {cookies.license === "Admin" ? (
+              <Dashboard.Users />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          {/* Completed */}
+          <Route path="/Dashboard-User/:id">
+            {cookies.license === "Admin" ? (
+              <Dashboard.User />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/Dashboard-Appointments/:filter">
+            {cookies.license === "Admin" ? (
+              <System.Appointments />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/Dashboard-Appointment/:user">
+            {cookies.license === "Admin" ? (
+              <System.Appointment />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/Dashboard-Recipes/:filter">
+            {cookies.license === "Admin" ? (
+              <System.Recipes />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/Dashboard-Recipe/:user">
+            {cookies.license === "Admin" ? (
+              <System.Recipe />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/Dashboard-Surveys/:filter">
+            {cookies.license === "Admin" ? (
+              <System.Surveys />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/Dashboard-Surveys/:id">
+            {cookies.license === "Admin" ? (
+              <System.Survey />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/Dashboard-Tests/:filter">
+            {cookies.license === "Admin" ? (
+              <System.Tests />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/Dashboard-Tests/:id">
+            {cookies.license === "Admin" ? (
+              <System.Test />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/Patients">
+            {cookies.license === "Medic" ? (
+              <Medic.Patients />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/Appointments/:id">
+            {cookies.license === "Medic" ? (
+              <Medic.Appointments />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/Tests/:id">
+            {cookies.license === "Medic" ? (
+              <Medic.Tests />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/Surveys/:id">
+            {cookies.license === "Medic" ? (
+              <Medic.Surveys />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/SurveysDetails">
+            {cookies.license === "Medic" ? (
+              <Medic.Surveys />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
         </Switch>
         <br />
       </main>

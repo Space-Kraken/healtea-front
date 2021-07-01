@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import Loader from "./../../../UI/organisms/Loader";
 import Button from "./../../../UI/atoms/Button";
 
-const GET_MEDICALRECORDS = gql`
+export const GET_MEDICALRECORDS = gql`
   query GetMedicalRecords {
     getMedicalRecords {
       id
@@ -32,12 +32,15 @@ const GET_MEDICALRECORDS = gql`
 `;
 
 export default function MedicalRecords() {
-  const { data, loading, error } = useQuery(GET_MEDICALRECORDS);
+  const { data, loading } = useQuery(GET_MEDICALRECORDS);
   const history = useHistory();
   if (loading) return <Loader />;
 
   return (
     <div className="flex flex-col w-full">
+      <div className="bg-gradient-to-r from-fresh-god-magic-blue via-fresh-god-50 to-fresh-god-cool-rose border black py-2 text-lg md:text-xl font-medium rounded-t-full">
+        <h1>Medical Records</h1>
+      </div>
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -110,7 +113,9 @@ export default function MedicalRecords() {
                       <Button
                         text="more"
                         method={() => {
-                          history.push(`/User/${medicalRecord.patient.id}`);
+                          history.push(
+                            `/Dashboard-User/${medicalRecord.patient.id}`
+                          );
                         }}
                       />
                     </td>

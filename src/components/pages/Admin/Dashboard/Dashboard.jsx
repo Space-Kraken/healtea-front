@@ -38,7 +38,7 @@ export default function Dashboard() {
           <div className="py-2">
             <button
               onClick={() => {
-                path.push("/users");
+                path.push("/Dashboard-Users");
               }}
               className="fadeIn bg-blue-200 w-1/3 m-auto rounded-lg shadow-md font-medium py-2 focus:outline-none hover:bg-blue-300"
             >
@@ -94,7 +94,7 @@ export default function Dashboard() {
           <div className="py-2">
             <button
               onClick={() => {
-                path.push("/Medical-records");
+                path.push("/Dashboard-Medical-records");
               }}
               className="bg-blue-200 w-1/3 m-auto rounded-lg shadow-md font-medium py-2 focus:outline-none hover:bg-blue-300"
             >
@@ -106,7 +106,7 @@ export default function Dashboard() {
       <div className="flex flex-col lg:flex-row">
         <div className="flex flex-col m-2 shadow-lg bg-white w-auto lg:w-1/3 rounded-br-main rounded-tl-main border">
           <motion.div className="m-auto" animate={{ scale: [0.5, 1] }}>
-            <img src={Roles} alt="users list" />
+            <img className="rounded-tl-main" src={Roles} alt="users list" />
           </motion.div>
           <div className="py-2">
             <button
