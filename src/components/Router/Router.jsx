@@ -54,7 +54,7 @@ export default function Router() {
                   cookies.license === "Admin"
                     ? "/Dashboard-Summary"
                     : cookies.license === "Medic"
-                    ? "/Patients"
+                    ? "/Medic-Patients"
                     : "/"
                 }
               />
@@ -122,7 +122,7 @@ export default function Router() {
               <Redirect to="/" />
             )}
           </Route>
-          <Route path="/Dashboard-Appointment/:user">
+          <Route path="/Dashboard-Appointment/:id">
             {cookies.license === "Admin" ? (
               <System.Appointment />
             ) : (
@@ -171,35 +171,29 @@ export default function Router() {
               <Redirect to="/" />
             )}
           </Route>
-          <Route path="/Patients">
+          {/* Repair this paths */}
+          <Route path="/Medic-Patients">
             {cookies.license === "Medic" ? (
               <Medic.Patients />
             ) : (
               <Redirect to="/" />
             )}
           </Route>
-          <Route path="/Appointments/:id">
+          <Route path="/Medic-Appointments/:id">
             {cookies.license === "Medic" ? (
               <Medic.Appointments />
             ) : (
               <Redirect to="/" />
             )}
           </Route>
-          <Route path="/Tests/:id">
+          <Route path="/Medic-Tests/:id">
             {cookies.license === "Medic" ? (
               <Medic.Tests />
             ) : (
               <Redirect to="/" />
             )}
           </Route>
-          <Route path="/Surveys/:id">
-            {cookies.license === "Medic" ? (
-              <Medic.Surveys />
-            ) : (
-              <Redirect to="/" />
-            )}
-          </Route>
-          <Route path="/SurveysDetails">
+          <Route path="/Medic-Surveys/:id">
             {cookies.license === "Medic" ? (
               <Medic.Surveys />
             ) : (

@@ -5,6 +5,10 @@ import UsersList from "./../../../../assets/images/Dashboard/usersList.png";
 import addUSer from "./../../../../assets/images/Dashboard/addUser.png";
 import Records from "./../../../../assets/images/Dashboard/records.png";
 import Roles from "./../../../../assets/images/Dashboard/roles.png";
+import Appointments from "./../../../../assets/images/MedicalRecords/Appointments.png";
+import Recipes from "./../../../../assets/images/MedicalRecords/Recipes.png";
+import Surveys from "./../../../../assets/images/MedicalRecords/Surveys.png";
+import Tests from "./../../../../assets/images/MedicalRecords/Test.png";
 import Modal from "react-modal";
 import AddUser from "./../AddUser";
 import AddRole from "./../AddRole";
@@ -119,7 +123,70 @@ export default function Dashboard() {
             </button>
           </div>
         </div>
+        <div className="flex flex-col m-2 shadow-lg bg-white w-auto lg:w-1/3 rounded-br-main rounded-tl-main border">
+          <motion.div className="m-auto" animate={{ scale: [0.5, 1] }}>
+            <img className="p-12" src={Appointments} alt="users list" />
+          </motion.div>
+          <div className="py-2">
+            <button
+              onClick={() => {
+                path.push("/Dashboard-Appointments/global");
+              }}
+              className="fadeIn bg-blue-200 w-1/3 m-auto rounded-lg shadow-md font-medium py-2 focus:outline-none hover:bg-blue-300"
+            >
+              See Appointments
+            </button>
+          </div>
+        </div>
+        <div className="flex flex-col m-2 shadow-lg bg-white w-auto lg:w-1/3 rounded-br-main rounded-tl-main border">
+          <motion.div className="m-auto" animate={{ scale: [0.5, 1] }}>
+            <img className="p-12" src={Recipes} alt="users list" />
+          </motion.div>
+          <div className="py-2">
+            <button
+              onClick={() => {
+                path.push("/Dashboard-Recipes/global");
+              }}
+              className="fadeIn bg-blue-200 w-1/3 m-auto rounded-lg shadow-md font-medium py-2 focus:outline-none hover:bg-blue-300"
+            >
+              See Recipes
+            </button>
+          </div>
+        </div>
       </div>
+      <div className="flex flex-col lg:flex-row">
+        <div className="flex flex-col m-2 shadow-lg bg-white w-auto lg:w-1/3 rounded-br-main rounded-tl-main border">
+          <motion.div className="m-auto" animate={{ scale: [0.5, 1] }}>
+            <img className="p-12" src={Surveys} alt="users list" />
+          </motion.div>
+          <div className="py-2">
+            <button
+              onClick={() => {
+                path.push("/Dashboard-Surveys/global");
+              }}
+              className="fadeIn bg-blue-200 w-1/3 m-auto rounded-lg shadow-md font-medium py-2 focus:outline-none hover:bg-blue-300"
+            >
+              See Surveys
+            </button>
+          </div>
+        </div>
+        <div className="flex flex-col m-2 shadow-lg bg-white w-auto lg:w-1/3 rounded-br-main rounded-tl-main border">
+          <motion.div className="m-auto" animate={{ scale: [0.5, 1] }}>
+            <img className="p-12" src={Tests} alt="users list" />
+          </motion.div>
+          <div className="py-2">
+            <button
+              onClick={() => {
+                path.push("/Dashboard-Tests/global");
+              }}
+              className="fadeIn bg-blue-200 w-1/3 m-auto rounded-lg shadow-md font-medium py-2 focus:outline-none hover:bg-blue-300"
+            >
+              See Tests
+            </button>
+          </div>
+        </div>
+      </div>
+
       <Modal
         isOpen={addRoleIsOpen}
         onRequestClose={closeModal}

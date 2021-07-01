@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../UI/organisms/Loader";
@@ -22,13 +22,48 @@ const GET_USERS = gql`
 
 export default function Users() {
   const { data, loading } = useQuery(GET_USERS);
-
   let history = useHistory();
+  const [searchFilter, setsearchFilter] = useState("");
+  const [handleSearch, sethandleSearch] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      sethandleSearch(
+        Object.values(data.getAllUsers).filter((user) => {
+          if (searchFilter === "") {
+            return user;
+          } else {
+            const lowerName = user.userData.name.toLowerCase();
+            const lowerEmail = user.email.toLowerCase();
+            const lowerRole = user.role.rolType.toLowerCase();
+            const active = user.active ? "active" : "disabled";
+            const lowerFilter = searchFilter.toLowerCase();
+            return (
+              lowerName.includes(searchFilter.toLowerCase(lowerFilter)) ||
+              lowerEmail.includes(lowerFilter) ||
+              lowerRole.includes(lowerFilter) ||
+              active.includes(lowerFilter)
+            );
+          }
+        })
+      );
+    }
+  }, [data, searchFilter]);
 
   if (loading) return <Loader />;
 
   return (
     <div className="flex flex-col w-full">
+      <div className="pb-4">
+        <input
+          className="shadow-sm rounded-xl text-center w-full md:w-2/3 lg:w-1/3 py-2"
+          placeholder="filter data"
+          value={searchFilter}
+          onChange={(e) => {
+            setsearchFilter(e.target.value);
+          }}
+        />
+      </div>
       <div className="bg-gradient-to-r from-fresh-god-magic-blue via-fresh-god-50 to-fresh-god-cool-rose border black py-2 text-lg md:text-xl font-medium rounded-t-full">
         <h1>Users</h1>
       </div>
@@ -71,25 +106,44 @@ export default function Users() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {console.log(data)}
-                {data.getAllUsers.map((user) => (
-                  <tr key={user.id}>
-                    <td className="">{user.userData.name}</td>
-                    <td className="hidden md:table-cell">{user.email}</td>
-                    <td className="hidden md:table-cell">
-                      {user.role.rolType}
+                {Object.keys(handleSearch).length !== 0 ? (
+                  handleSearch.map((user) => (
+                    <tr key={user.id}>
+                      <td className="">{user.userData.name}</td>
+                      <td className="hidden md:table-cell">{user.email}</td>
+                      <td className="hidden md:table-cell">
+                        {user.role.rolType}
+                      </td>
+                      <td className="">
+                        {user.active ? "Active" : "Disabled"}
+                      </td>
+                      <td className="py-2">
+                        <Button
+                          text="more"
+                          method={() => {
+                            history.push(`/Dashboard-User/${user.id}`);
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="hidden md:table-cell">
+                      {searchFilter === ""
+                        ? "Nothing to show yet"
+                        : "User not found"}
                     </td>
-                    <td className="">{user.active ? "Active" : "Disabled"}</td>
-                    <td className="py-2">
-                      <Button
-                        text="more"
-                        method={() => {
-                          history.push(`/Dashboard-User/${user.id}`);
-                        }}
-                      />
+                    <td
+                      colSpan="4"
+                      className="table-cell sm:lg:hidden md:hidden lg:hidden"
+                    >
+                      {searchFilter === ""
+                        ? "Nothing to show yet"
+                        : "User not found"}
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
