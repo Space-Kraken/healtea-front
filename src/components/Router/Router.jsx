@@ -17,6 +17,7 @@ import Home from "./../pages/Home";
 import { System } from "./../pages/System";
 
 import { Medic } from "../pages/Medic";
+import { User } from "./../pages/User";
 
 import { Dashboard } from "./../pages/Admin";
 import { useCookies } from "react-cookie";
