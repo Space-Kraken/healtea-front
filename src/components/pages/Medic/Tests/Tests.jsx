@@ -38,6 +38,35 @@ export default function Tests() {
             <h2 className="mb-6 text-2xl font-semibold text-gray-700">
                 TESTS
             </h2>
+            <div className="container mx-auto px-6 flex flex-wrap">
+                <div class="p-2 md:w-80 ">
+                    <div class="flex items-center p-4 bg-red-200 rounded-lg shadow-xs cursor-pointer hover:bg-red-500 hover:text-gray-100">
+                        <div>
+                        <p class="text-sm font-semibold ml-2 ">
+                            Blood fast test
+                        </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-2 md:w-80 ">
+                    <div class="flex items-center p-4 bg-green-200 rounded-lg shadow-xs cursor-pointer hover:bg-green-500 hover:text-gray-100">
+                        <div>
+                        <p class="text-sm font-semibold ml-2 ">
+                            Antigen test
+                        </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-2 md:w-80 ">
+                    <div class="flex items-center p-4 bg-indigo-200 rounded-lg shadow-xs cursor-pointer hover:bg-indigo-500 hover:text-gray-100">
+                        <div>
+                        <p class=" text-sm font-semibold ml-2 ">
+                            PCR Test
+                        </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <table className="table-fixed">
             <thead>
                 <tr>
