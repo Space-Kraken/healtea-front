@@ -10,7 +10,7 @@ import env from "dotenv";
 env.config();
 
 const client = new ApolloClient({
-  uri: "http://192.168.1.64:3100/",
+  uri: "https://healtea-api.herokuapp.com/",
   cache: new InMemoryCache(),
 });
 
