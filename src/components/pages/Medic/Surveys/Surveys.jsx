@@ -23,29 +23,27 @@ const GET_SURVEYS = gql`
 
 export default function Surveys() {
   let { id } = useParams();
+  let path = useHistory();
 
   const { data, loading } = useQuery(GET_SURVEYS);
-  let path = useHistory();
+
   if (loading) return <Loader />;
 
   return (
     <div className="h-auto">
+      {console.log(data)}
       <h1 className="mb-6 text-2xl font-semibold text-gray-700">
         Request a type of survey
       </h1>
-      <div className="container mx-auto px-6 flex flex-wrap">
+      <div className="container mx-auto px-6 flex flex-wrap mb-4">
         <div class="p-2 md:w-80 ">
-          <div class="flex items-center p-4 bg-indigo-200 rounded-lg shadow-xs cursor-pointer hover:bg-indigo-500 hover:text-gray-100">
-            <div>
-              <button class=" text-sm font-semibold ml-2 ">Voluntary</button>
-            </div>
+          <div class="flex items-center justify-center p-4 bg-indigo-200 rounded-lg shadow-xs cursor-pointer hover:bg-indigo-500 hover:text-gray-100">
+            <div>Voluntary</div>
           </div>
         </div>
         <div class="p-2 md:w-80 ">
-          <div class="flex items-center p-4 bg-pink-200 rounded-lg shadow-xs cursor-pointer hover:bg-pink-500 hover:text-gray-100">
-            <div>
-              <button class="text-sm font-semibold ml-2 ">Obligatory</button>
-            </div>
+          <div class="flex justify-center items-center p-4 bg-pink-200 rounded-lg shadow-xs cursor-pointer hover:bg-pink-500 hover:text-gray-100">
+            <div>Obligatory</div>
           </div>
         </div>
       </div>
@@ -76,7 +74,7 @@ export default function Surveys() {
                       </tbody>
                     </table>
                     <div className="content-center m-4">
-                      <button class="bg-green-300 px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2  text-white rounded-full">
+                      <button class="bg-green-300 px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2  text-white rounded-full focus:outline-none">
                         Survey answers
                       </button>
                     </div>

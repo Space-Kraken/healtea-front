@@ -4,6 +4,8 @@ import { gql, useQuery } from "@apollo/client";
 import Loader from "../../../UI/organisms/Loader";
 import dateFormat from "dateformat";
 import Button from "../../../UI/atoms/Button";
+import { IconContext } from "react-icons";
+import { CgCheckO, CgRadioCheck } from "react-icons/cg";
 
 const GET_ALL_SURVEYS = gql`
   query GetSurveys {
@@ -15,9 +17,7 @@ const GET_ALL_SURVEYS = gql`
         }
       }
       date
-      modality {
-        desc
-      }
+      modality
       completed
     }
   }
@@ -30,10 +30,14 @@ const GET_USER_SURVEYS = gql`
       medicalRecord {
         surveys {
           id
-          date
-          modality {
-            desc
+          patient {
+            userData {
+              name
+            }
           }
+          date
+          modality
+          completed
         }
       }
     }
@@ -56,7 +60,7 @@ export default function Surveys() {
     return formatedDate;
   };
 
-  if (loading) <Loader />;
+  if (loading) return <Loader />;
 
   return (
     <div className="w-full">
@@ -110,7 +114,6 @@ export default function Surveys() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {console.log(data)}
                     {data &&
                       data.getSurveys.map((survey, key) => (
                         <tr key={survey.id}>
@@ -119,13 +122,29 @@ export default function Surveys() {
                             {survey.patient.userData.name}
                           </td>
                           <td className="">{formatDate(survey.date)}</td>
-                          <td className="">{survey.modality.desc}</td>
-                          <td className="">{survey.modality.completed}</td>
+                          <td className="">{survey.modality}</td>
+                          <td className="">
+                            <div className="flex flex-row w-full justify-center">
+                              {survey.completed ? (
+                                <IconContext.Provider
+                                  value={{ size: "1.8rem" }}
+                                >
+                                  <CgCheckO />
+                                </IconContext.Provider>
+                              ) : (
+                                <IconContext.Provider
+                                  value={{ size: "1.8rem" }}
+                                >
+                                  <CgRadioCheck />
+                                </IconContext.Provider>
+                              )}
+                            </div>
+                          </td>
                           <td className="py-2">
                             <Button
                               text="more"
                               method={() => {
-                                path.push(`/Dashboard-Recipe/${survey.id}`);
+                                path.push(`/Dashboard-Survey/${survey.id}`);
                               }}
                             />
                           </td>
@@ -189,7 +208,6 @@ export default function Surveys() {
                   <tbody className="bg-white divide-y divide-gray-200">
                     {Object.keys(data.getUser.medicalRecord.surveys).length !==
                     0 ? (
-                      data &&
                       data.getUser.medicalRecord.surveys.map((survey, key) => (
                         <tr key={survey.id}>
                           <td className="hidden md:table-cell">{key + 1}</td>
@@ -197,13 +215,29 @@ export default function Surveys() {
                             {survey.patient.userData.name}
                           </td>
                           <td className="">{formatDate(survey.date)}</td>
-                          <td className="">{survey.modality.desc}</td>
-                          <td className="">{survey.modality.completed}</td>
+                          <td className="">{survey.modality}</td>
+                          <td className="">
+                            <div className="flex flex-row w-full justify-center">
+                              {survey.completed ? (
+                                <IconContext.Provider
+                                  value={{ size: "1.8rem" }}
+                                >
+                                  <CgCheckO />
+                                </IconContext.Provider>
+                              ) : (
+                                <IconContext.Provider
+                                  value={{ size: "1.8rem" }}
+                                >
+                                  <CgRadioCheck />
+                                </IconContext.Provider>
+                              )}
+                            </div>
+                          </td>
                           <td className="py-2">
                             <Button
                               text="more"
                               method={() => {
-                                path.push(`/Dashboard-Recipe/${survey.id}`);
+                                path.push(`/Dashboard-Survey/${survey.id}`);
                               }}
                             />
                           </td>

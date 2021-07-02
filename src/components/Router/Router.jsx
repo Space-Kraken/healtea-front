@@ -32,6 +32,7 @@ export default function Router() {
 
   const deleteSession = () => {
     setCookie("user", undefined, { path: "/" });
+    remove("license");
     setCookie("license", undefined, { path: "/" });
     remove("token");
     remove("image");
@@ -55,6 +56,8 @@ export default function Router() {
                     ? "/Dashboard-Summary"
                     : cookies.license === "Medic"
                     ? "/Medic-Patients"
+                    : cookies.license === "Student"
+                    ? "/User-Main"
                     : "/"
                 }
               />
@@ -150,7 +153,7 @@ export default function Router() {
               <Redirect to="/" />
             )}
           </Route>
-          <Route path="/Dashboard-Surveys/:id">
+          <Route path="/Dashboard-Survey/:id">
             {cookies.license === "Admin" ? (
               <System.Survey />
             ) : (
@@ -164,7 +167,7 @@ export default function Router() {
               <Redirect to="/" />
             )}
           </Route>
-          <Route path="/Dashboard-Tests/:id">
+          <Route path="/Dashboard-Test/:id">
             {cookies.license === "Admin" ? (
               <System.Test />
             ) : (
@@ -196,6 +199,31 @@ export default function Router() {
           <Route path="/Medic-Surveys/:id">
             {cookies.license === "Medic" ? (
               <Medic.Surveys />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/Medic-Surveys/:id">
+            {cookies.license === "Medic" ? (
+              <Medic.Surveys />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/User-Main">
+            {cookies.license === "Student" ||
+            cookies.license === "Personnel" ||
+            cookies.license === "Directors" ? (
+              <User.DashboardUser />
+            ) : (
+              <Redirect to="/" />
+            )}
+          </Route>
+          <Route path="/User-NewSurvey/:id">
+            {cookies.license === "Student" ||
+            cookies.license === "Personnel" ||
+            cookies.license === "Directors" ? (
+              <User.Surveys />
             ) : (
               <Redirect to="/" />
             )}
